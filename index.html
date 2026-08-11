@@ -1,0 +1,322 @@
+```html
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZGTHUB // ZGRÉP NETWORK</title>
+
+<style>
+    :root {
+        --bg: #050505;
+        --panel: #0d0d0d;
+        --green: #00ff66;
+        --purple: #a855f7;
+        --text: #e8e8e8;
+        --red: #ff3333;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at 50% 0%, #191022 0%, transparent 40%),
+            var(--bg);
+        color: var(--text);
+        font-family: "Courier New", monospace;
+    }
+
+    header {
+        padding: 25px;
+        text-align: center;
+        border-bottom: 2px solid var(--green);
+        background: #080808;
+        box-shadow: 0 0 25px rgba(0,255,102,.15);
+    }
+
+    header h1 {
+        margin: 0;
+        color: var(--green);
+        font-size: 2.4rem;
+        letter-spacing: 5px;
+        text-shadow: 0 0 15px var(--green);
+    }
+
+    header p {
+        color: #aaa;
+        margin-bottom: 0;
+    }
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px;
+        background: #090909;
+    }
+
+    nav button {
+        background: transparent;
+        border: 1px solid #333;
+        color: white;
+        padding: 10px 16px;
+        font-family: inherit;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    nav button:hover {
+        border-color: var(--green);
+        color: var(--green);
+        box-shadow: 0 0 10px rgba(0,255,102,.3);
+    }
+
+    main {
+        max-width: 1000px;
+        margin: auto;
+        padding: 30px 20px;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 50px 20px;
+        border: 1px solid #292929;
+        background: linear-gradient(145deg, #0d0d0d, #111111);
+        box-shadow: inset 0 0 40px rgba(168,85,247,.05);
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+        color: var(--purple);
+        text-shadow: 0 0 12px rgba(168,85,247,.5);
+    }
+
+    .status {
+        display: inline-block;
+        margin: 10px;
+        padding: 8px 15px;
+        border: 1px solid var(--green);
+        color: var(--green);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    .card {
+        padding: 20px;
+        background: var(--panel);
+        border: 1px solid #292929;
+        transition: .2s;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        border-color: var(--purple);
+        box-shadow: 0 0 15px rgba(168,85,247,.2);
+    }
+
+    .card h3 {
+        color: var(--green);
+    }
+
+    .secret {
+        margin-top: 30px;
+        text-align: center;
+        padding: 25px;
+        border: 1px dashed var(--red);
+    }
+
+    .secret button {
+        background: var(--red);
+        color: white;
+        border: none;
+        padding: 14px 30px;
+        font-family: inherit;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .secret button:hover {
+        box-shadow: 0 0 20px rgba(255,51,51,.5);
+        transform: scale(1.04);
+    }
+
+    #message {
+        margin-top: 15px;
+        color: var(--green);
+        min-height: 25px;
+        font-weight: bold;
+    }
+
+    footer {
+        text-align: center;
+        padding: 30px;
+        color: #555;
+        border-top: 1px solid #222;
+        margin-top: 30px;
+    }
+
+    .glitch {
+        animation: glitch 1.5s infinite;
+    }
+
+    @keyframes glitch {
+        0%, 90%, 100% { transform: translate(0); }
+        92% { transform: translate(2px, -1px); }
+        94% { transform: translate(-2px, 1px); }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1 class="glitch">ZGTHUB</h1>
+    <p>// ZGRÉP NETWORK // TITKOS INTERNETES KÖZPONT //</p>
+</header>
+
+<nav>
+    <button onclick="home()">🏠 HOME</button>
+    <button onclick="projects()">📦 PROJECTS</button>
+    <button onclick="lore()">🗿 ZGT LORE</button>
+    <button onclick="code()">💻 CODE</button>
+    <button onclick="news()">📰 NEWS</button>
+    <button onclick="secret()">🔒 SECRET</button>
+</nav>
+
+<main id="content">
+
+    <section class="hero">
+        <h2>ÜDV A ZGTHUBBAN 👑</h2>
+        <p>A ZGT univerzum hivatalos, teljesen komolytalan központja.</p>
+
+        <div class="status">
+            🟢 ZGT SYSTEM: ONLINE
+        </div>
+
+        <div class="status">
+            ⚡ ZGRÉP: ACTIVE
+        </div>
+    </section>
+
+    <section class="grid">
+        <div class="card">
+            <h3>🎮 Projektek</h3>
+            <p>Minecraft, Roblox és minden egyéb ZGT projekt.</p>
+        </div>
+
+        <div class="card">
+            <h3>💻 Kód</h3>
+            <p>HTML, JavaScript és egyéb ZGT technológia.</p>
+        </div>
+
+        <div class="card">
+            <h3>🗿 Lore</h3>
+            <p>A ZGRÉP története, legendái és teljesen értelmetlen eseményei.</p>
+        </div>
+
+        <div class="card">
+            <h3>📰 ZGT News</h3>
+            <p>A legfrissebb ZGT események.</p>
+        </div>
+    </section>
+
+    <section class="secret">
+        <h2>☠️ TITKOS TERÜLET ☠️</h2>
+        <p>FIGYELEM: csak akkor nyomd meg, ha készen állsz.</p>
+
+        <button onclick="secret()">
+            🔓 SECRET
+        </button>
+
+        <div id="message"></div>
+    </section>
+
+</main>
+
+<footer>
+    ZGTHUB © 2026 // ZGRÉP TITKOS GYÁRTM™
+</footer>
+
+<script>
+
+function setContent(title, text) {
+    document.getElementById("content").innerHTML = `
+        <section class="hero">
+            <h2>${title}</h2>
+            <p>${text}</p>
+        </section>
+    `;
+}
+
+function home() {
+    location.reload();
+}
+
+function projects() {
+    setContent(
+        "📦 ZGT PROJECTS",
+        "Projektlista betöltése... <br><br>🎮 Minecraft<br>🎮 Roblox<br>💻 ZGTSimple<br>🗿 ZGRÉP SYSTEM"
+    );
+}
+
+function lore() {
+    setContent(
+        "🗿 ZGT LORE",
+        "A ZGT eredete továbbra is titkos.<br><br>Csak egy dolog biztos:<br><strong>ZGRÉP.</strong>"
+    );
+}
+
+function code() {
+    setContent(
+        "💻 ZGT CODE",
+        "A kód működik.<br>Miért működik? Nem tudjuk.<br>De működik. 🗿"
+    );
+}
+
+function news() {
+    setContent(
+        "📰 ZGT NEWS",
+        "🔴 BREAKING NEWS:<br><br>YouTube Shorts még mindig nem tudja, mi az a ZGT. 💀"
+    );
+}
+
+function secret() {
+    const message = document.getElementById("message");
+
+    if (message) {
+        message.innerHTML = "☠️ CSINÁLD. 😈⚔️☠️";
+    } else {
+        document.getElementById("content").innerHTML = `
+            <section class="hero">
+                <h2>🔒 SECRET ACCESS</h2>
+                <p style="color:#00ff66;">
+                    ACCESS GRANTED.
+                </p>
+                <p style="font-size:1.5rem;">
+                    ☠️ <strong>CSINÁLD</strong> ☠️
+                </p>
+                <p>
+                    Nem tudjuk mit kell csinálni.<br>
+                    De <strong>CSINÁLD.</strong>
+                </p>
+            </section>
+        `;
+    }
+}
+
+</script>
+
+</body>
+</html>
+```
