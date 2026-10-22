@@ -53,7 +53,7 @@
 </section>
 <section class="wrap content" id="links"><div class="sectionhead"><div><div class="eyebrow">HIVATALOS ELÉRÉSEK</div><h2>ZGT linkek</h2><p>Nyisd meg a tényleges projekt- és közösségi oldalakat.</p></div></div>
 <div class="twocol"><div class="panel"><h3>🌐 Online</h3><div class="linklist"><a class="linkrow" href="https://www.youtube.com/@AZAZGT" target="_blank" rel="noopener noreferrer"><span>YouTube · @AZAZGT</span><span>Megnyitás ↗</span></a></div></div>
-<div class="panel"><h3>⛏️ Minecraft</h3><p>A ZGT SMP csatlakozási címe.</p><div class="serverbox"><code class="serverip" id="serverAddress">zgtsmp.falix.dev</code><button class="btn" id="copyServer2">IP másolása</button></div><p class="notice">A szerver aktuális elérhetőségét a Minecraft kliensben ellenőrizd.</p></div></div>
+<div class="panel"><h3>💜 Kövesd a ZGT-t</h3><p>A ZGT hírei, projektjei és videói egy helyen.</p><div class="linklist"><a class="linkrow" href="https://www.youtube.com/@AZAZGT" target="_blank" rel="noopener noreferrer"><span>YouTube · @AZAZGT</span><span>Csatorna ↗</span></a><a class="linkrow" href="https://zgt-chat.base44.app" target="_blank" rel="noopener noreferrer"><span>ZGT CHAT</span><span>Megnyitás ↗</span></a></div></div></div>
 </section>
 </main>
 <footer class="wrap footer"><span>© ZGT · ZGTHUB · 2026</span><span><strong>ZGT NEVER DIES.</strong> ZND.</span><span>Új verzió · Valódi linkek, nincs hamis online számláló.</span></footer>
@@ -87,8 +87,8 @@ async function copyServer(){
  try{await navigator.clipboard.writeText(address);toast('Szerver IP kimásolva: '+address);}
  catch(e){window.prompt('Másold ki a szerver IP-címét:',address);}
 }
-document.getElementById('copyServer').addEventListener('click',copyServer);
-document.getElementById('copyServer2').addEventListener('click',copyServer);
+const copyButton=document.getElementById('copyServer'); if(copyButton)copyButton.addEventListener('click',copyServer);
+const copyButton2=document.getElementById('copyServer2'); if(copyButton2)copyButton2.addEventListener('click',copyServer);
 })();
 </script>
 </body>
