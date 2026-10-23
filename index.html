@@ -24,7 +24,7 @@ body.og-theme .card:hover{transform:none;box-shadow:none;border-color:#9b5de5}
 body.og-theme .emoji{border-radius:6px;background:#21172b}
 body.og-theme .search,body.og-theme .serverip{border-radius:5px}
 body.og-theme .linkrow{border-radius:5px}
-.theme-notice{border:1px solid #a855f755;background:#a855f711;padding:12px 15px;border-radius:12px;color:#e9d5ff;font-size:13px;margin:8px 0 18px}
+.theme-picker{position:relative;flex-shrink:0}.theme-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:165px;padding:7px;background:#13101d;border:1px solid #a855f766;border-radius:12px;box-shadow:0 14px 36px #0008;z-index:20;display:grid;gap:5px}.theme-option{border:1px solid transparent;background:transparent;color:#f8f5ff;text-align:left;padding:10px 11px;border-radius:8px;cursor:pointer}.theme-option:hover,.theme-option.active{background:#a855f722;border-color:#a855f755}body.og-theme .theme-menu{background:#111014;border-radius:5px;border-color:#6f35b5}body.og-theme .theme-option{border-radius:4px}.theme-notice{border:1px solid #a855f755;background:#a855f711;padding:12px 15px;border-radius:12px;color:#e9d5ff;font-size:13px;margin:8px 0 18px}
 body.og-theme .theme-notice{border-radius:5px;background:#111014;border-color:#6f35b5}
 .gamebox{border:1px solid #ffffff18;background:#0d0a12;border-radius:14px;padding:16px;margin-top:14px}
 body.og-theme .gamebox{border-radius:5px;border-color:#39313f;background:#09080b}
@@ -42,7 +42,7 @@ body.og-theme .ttt button{border-radius:4px;background:#151019}
 <header class="topbar"><div class="wrap topinner">
 <a class="brand" href="#home"><span class="logo">Z</span><span>ZGTHUB</span><small>V2 · ZGT UNIVERSE</small></a>
 <nav class="nav" aria-label="Fő navigáció"><a href="#projects">Projektek</a><a href="#social">Social</a><a href="#games">Játékok</a><a href="#updates">Update Wall</a><a href="#about">A ZGT-ről</a><a href="#links">Linkek</a></nav>
-<button class="btn" id="themeToggle" type="button" aria-pressed="true">🟣 OG kinézet</button>
+<div class="theme-picker"><button class="btn" id="themeToggle" type="button" aria-expanded="false">🎨 Kinézetek</button><div class="theme-menu hidden" id="themeMenu"><button class="theme-option" id="chooseOG" type="button">🟣 OG kinézet</button><button class="theme-option" id="chooseNew" type="button">✨ Új GUI</button></div></div>
 <a class="btn primary" href="https://www.youtube.com/@AZAZGT" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
 </div></header>
 <main>
@@ -137,12 +137,18 @@ const copyButton2=document.getElementById('copyServer2'); if(copyButton2)copyBut
 // OG theme defaults for the one-month event (23 Oct–23 Nov 2026); toggle remains available.
 const themeToggle=document.getElementById('themeToggle');
 const themeNotice=document.getElementById('themeNotice');
+const themeMenu=document.getElementById('themeMenu');
+const chooseOG=document.getElementById('chooseOG');
+const chooseNew=document.getElementById('chooseNew');
 const eventEnd=new Date('2026-11-23T23:59:59');
 const today=new Date();
 const storedTheme=localStorage.getItem('zgthub-theme');
 let ogActive=storedTheme ? storedTheme==='og' : today < eventEnd;
-function applyTheme(){document.body.classList.toggle('og-theme',ogActive);themeToggle.textContent=ogActive?'🟣 OG kinézet':'✨ Új GUI';themeToggle.setAttribute('aria-pressed',String(ogActive));if(themeNotice)themeNotice.innerHTML=ogActive?'🟣 <strong>OG hónap aktiválva!</strong> A klasszikus ZGTHub-kinézet 2026. november 23-ig tart. Az új GUI-k, a Social és az Update Wall közben megmaradnak. A fejléc gombjával bármikor válthatsz.':'✨ <strong>Új GUI aktiválva!</strong> A modern ZGTHub-dizájn fut. Az OG kinézetet a fejléc gombjával bármikor visszakapcsolhatod.';}
-themeToggle.addEventListener('click',function(){ogActive=!ogActive;localStorage.setItem('zgthub-theme',ogActive?'og':'new');applyTheme();});applyTheme();
+function applyTheme(){document.body.classList.toggle('og-theme',ogActive);chooseOG.classList.toggle('active',ogActive);chooseNew.classList.toggle('active',!ogActive);if(themeNotice)themeNotice.innerHTML=ogActive?'🟣 <strong>OG hónap aktiválva!</strong> A klasszikus ZGTHub-kinézet 2026. november 23-ig tart. Az új GUI-k, a Social és az Update Wall közben megmaradnak. A fejléc gombjával bármikor válthatsz.':'✨ <strong>Új GUI aktiválva!</strong> A modern ZGTHub-dizájn fut. Az OG kinézetet a fejléc gombjával bármikor visszakapcsolhatod.';}
+themeToggle.addEventListener('click',function(){const open=themeMenu.classList.contains('hidden');themeMenu.classList.toggle('hidden',!open);themeToggle.setAttribute('aria-expanded',String(open));});
+chooseOG.addEventListener('click',function(){ogActive=true;localStorage.setItem('zgthub-theme','og');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
+chooseNew.addEventListener('click',function(){ogActive=false;localStorage.setItem('zgthub-theme','new');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
+document.addEventListener('click',function(event){if(!event.target.closest('.theme-picker')){themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');}});applyTheme();
 // Click Rush
 let clicks=0,clickRunning=false,clickEnd=0,clickTimer=null;
 const clickScore=document.getElementById('clickScore'),clickStatus=document.getElementById('clickStatus'),clickHit=document.getElementById('clickHit'),clickStart=document.getElementById('clickStart');
