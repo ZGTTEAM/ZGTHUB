@@ -325,11 +325,11 @@ function drawArcade(){if(!arcadeRunning)return;arcadeFrame++;ctx.fillStyle='#050
  ctx.fillStyle='#4c4b9a';ctx.fillRect(7,81,5,2);ctx.fillRect(52,81,5,2);
  if(arcadeFrame%48===0)spawnAsteroid(false);
  asteroids.forEach(a=>{a.x-=a.speed;drawAsteroid(a);});
- rockets.forEach(r=>{r.x+=4.2;ctx.fillStyle='#67e8f9';ctx.fillRect(r.x,r.y,5,2);ctx.fillStyle='#fff';ctx.fillRect(r.x+3,r.y,2,2);});
+ rockets.forEach(r=>{if(r.target&&asteroids.includes(r.target)){const dx=r.target.x-r.x,dy=r.target.y-r.y,d=Math.hypot(dx,dy)||1;r.x+=dx/d*4.5;r.y+=dy/d*4.5;}else{r.x+=4.2;}ctx.fillStyle='#67e8f9';ctx.fillRect(r.x,r.y,5,2);ctx.fillStyle='#fff';ctx.fillRect(r.x+3,r.y,2,2);});
  for(let i=asteroids.length-1;i>=0;i--){if(asteroids[i].x<52){asteroids.splice(i,1);statusEl.textContent='ASTEROID HIT THE PLANET! KEEP GOING!';}}
  for(let i=rockets.length-1;i>=0;i--){const r=rockets[i];let hit=-1;for(let j=0;j<asteroids.length;j++){if(Math.abs(r.x-asteroids[j].x)<asteroids[j].size+4&&Math.abs(r.y-asteroids[j].y)<asteroids[j].size+4){hit=j;break;}}if(hit>=0){const a=asteroids.splice(hit,1)[0];rockets.splice(i,1);arcadeScore+=100;scoreEl.textContent='SCORE: '+String(arcadeScore).padStart(4,'0');statusEl.textContent='NICE SHOT! +100';ctx.fillStyle='#fef08a';ctx.fillRect(a.x-5,a.y-5,10,10);}else if(r.x>320)rockets.splice(i,1);}
  pixelShip(32,84);requestAnimationFrame(drawArcade);}
-function fireRocket(event){if(!arcadeRunning)return;const rect=canvas.getBoundingClientRect();const x=(event.clientX-rect.left)/rect.width*320,y=(event.clientY-rect.top)/rect.height*180;let target=null,best=Infinity;asteroids.forEach(a=>{const d=Math.hypot(a.x-x,a.y-y);if(d<best){best=d;target=a;}});const aim=target||asteroids.reduce((best,a)=>!best||a.x>best.x?a:best,null);rockets.push({x:48,y:84});if(aim){const rocket=rockets[rockets.length-1];rocket.y=84;rocket.targetX=aim.x;rocket.targetY=aim.y;rocket.y=aim.y;statusEl.textContent='ROCKET LAUNCHED!';}}
+function fireRocket(event){if(!arcadeRunning)return;const rect=canvas.getBoundingClientRect();const x=(event.clientX-rect.left)/rect.width*320,y=(event.clientY-rect.top)/rect.height*180;let target=null,best=Infinity;asteroids.forEach(a=>{const d=Math.hypot(a.x-x,a.y-y);if(d<best){best=d;target=a;}});const aim=target||asteroids.reduce((best,a)=>!best||a.x>best.x?a:best,null);rockets.push({x:48,y:84,target:aim});if(aim){statusEl.textContent='ROCKET LAUNCHED!';}}
 document.getElementById('openPlanetArcade').addEventListener('click',function(){arcade.classList.add('open');arcadeRunning=true;resetArcade();requestAnimationFrame(drawArcade);});
 document.getElementById('closePlanetArcade').addEventListener('click',function(){arcadeRunning=false;arcade.classList.remove('open');});
 document.getElementById('restartPlanetArcade').addEventListener('click',function(){resetArcade();});
@@ -338,5 +338,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&arcade.clas
 
 })();
 </script>
+<div id="planetArcade" role="dialog" aria-modal="true" aria-label="ZGT Planet Blaster">
+ <div class="arcade-shell">
+  <div class="arcade-top"><span>★ ZGT PLANET BLASTER ★</span><span id="arcadeScore">SCORE: 0000</span><button class="arcade-close" id="closePlanetArcade" type="button">[ X ]</button></div>
+  <canvas id="planetCanvas" width="320" height="180" aria-label="Kattints az aszteroidákra, hogy a ZGT bolygó rakétákat lőjön ki"></canvas>
+  <div class="arcade-top" style="margin-top:10px;margin-bottom:0"><span id="arcadeStatus">READY PLAYER ONE</span><button class="arcade-restart" id="restartPlanetArcade" type="button">RESTART ↻</button></div>
+  <p class="arcade-hint">KATTINTS A KÖZELEDŐ ASZTEROIDÁKRA! A ZGT BOLYGÓ RAKÉTÁKKAL VÉDI MAGÁT.</p>
+ </div>
+</div>
 </body>
 </html>
