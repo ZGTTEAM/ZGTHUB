@@ -163,6 +163,18 @@ body:not(.og-theme) .footer{border-color:#172a5a}
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
+ // Redirect unknown hash links to the ZGTHUB #404 address.
+ const validHashes=new Set(Array.from(document.querySelectorAll('[id]')).map(function(el){return el.id;}));
+ validHashes.add('404');
+ function validateHash(){
+  const hash=decodeURIComponent((window.location.hash||'').replace(/^#/, ''));
+  if(hash && !validHashes.has(hash)){
+   window.location.replace(window.location.pathname+window.location.search+'#404');
+  }
+ }
+ validateHash();
+ window.addEventListener('hashchange',validateHash);
+
 const search=document.getElementById('projectSearch');
 const cards=Array.from(document.querySelectorAll('#projectGrid .card'));
 const filters=Array.from(document.querySelectorAll('[data-filter]'));
