@@ -34,6 +34,18 @@ body.og-theme .gamebox{border-radius:5px;border-color:#39313f;background:#09080b
 .ttt button{height:64px;border:1px solid #a855f755;border-radius:8px;background:#21152f;color:white;font-size:26px;font-weight:900;cursor:pointer}
 body.og-theme .ttt button{border-radius:4px;background:#151019}
 #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#21152f;border:1px solid #a855f7;color:white;border-radius:12px;padding:11px 16px;z-index:30;transition:.2s}#toast.show{opacity:1;transform:translate(-50%,0)}
+/* Floating Quick Menu: always reachable on desktop and mobile */
+.quick-menu-launch{position:fixed;right:18px;bottom:18px;z-index:40;border:1px solid #c084fc;background:linear-gradient(135deg,#a855f7,#6d28d9);color:#fff;border-radius:999px;padding:13px 17px;font-weight:900;box-shadow:0 8px 28px #0008;cursor:pointer}
+.quick-menu-panel{position:fixed;right:18px;bottom:76px;z-index:40;width:min(290px,calc(100vw - 36px));padding:14px;background:#13101d;border:1px solid #a855f799;border-radius:16px;box-shadow:0 18px 50px #0009}
+.quick-menu-title{display:flex;align-items:center;justify-content:space-between;font-weight:900;margin-bottom:10px}
+.quick-menu-close{border:0;background:transparent;color:#c4b5fd;font-size:20px;cursor:pointer;padding:2px 7px}
+.quick-menu-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quick-menu-actions button,.quick-menu-actions a{display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid #a855f744;background:#21152f;color:#fff;padding:10px 8px;border-radius:9px;font:inherit;font-size:12px;cursor:pointer}
+.quick-menu-actions button:hover,.quick-menu-actions a:hover{border-color:#c084fc;background:#392052}
+.quick-menu-actions .wide{grid-column:1/-1}
+body.og-theme .quick-menu-panel{background:#111014;border-color:#6f35b5;border-radius:6px}
+body.og-theme .quick-menu-actions button,body.og-theme .quick-menu-actions a{background:#17121d;border-radius:4px}
+@media(max-width:540px){.quick-menu-launch{right:12px;bottom:12px}.quick-menu-panel{right:12px;bottom:68px}}
 @media(max-width:850px){.nav{display:none}.topinner{min-height:64px}.topinner>.btn{margin-left:auto}.hero{grid-template-columns:1fr;padding-top:48px}.art{min-height:270px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.twocol{grid-template-columns:1fr}}
 @media(max-width:540px){.wrap{width:91%}.brand small{display:none}.topinner>.btn{padding:9px 11px;font-size:12px}.hero h1{font-size:47px}.art{min-height:225px}.orb{width:140px;height:140px}.ring{width:230px}.ring.two{width:270px}.artmark{font-size:42px}.stats{gap:7px}.stat{padding:12px}.stat b{font-size:14px}.stat span{font-size:10px}.grid{grid-template-columns:1fr}.sectionhead{align-items:start;flex-direction:column}.sectionhead h2{font-size:27px}.footer{padding-bottom:28px}}
 </style>
@@ -102,6 +114,7 @@ body.og-theme .ttt button{border-radius:4px;background:#151019}
 </section>
 </main>
 <footer class="wrap footer"><span>© ZGT · ZGTHUB · 2026</span><span><strong>ZGT NEVER DIES.</strong> ZND.</span><span>Új verzió · Valódi linkek, nincs hamis online számláló.</span></footer>
+<div id="quickMenuPanel" class="quick-menu-panel hidden" role="dialog" aria-label="ZGTHUB Quick Menu"><div class="quick-menu-title"><span>⚡ Quick Menu</span><button class="quick-menu-close" id="quickMenuClose" type="button" aria-label="Bezárás">×</button></div><div class="quick-menu-actions"><button id="quickOG" type="button">🟣 OG kinézet</button><button id="quickNew" type="button">✨ Új GUI</button><a href="#projects">🧩 Projektek</a><a href="#social">📣 Social</a><a href="#games">🎮 Játékok</a><a href="#updates">🛠️ Update Wall</a><a class="wide" href="#links">🌐 ZGT linkek</a></div></div><button id="quickMenuLaunch" class="quick-menu-launch" type="button" aria-expanded="false" aria-controls="quickMenuPanel">⚡ Quick Menu</button>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
@@ -148,6 +161,15 @@ function applyTheme(){document.body.classList.toggle('og-theme',ogActive);choose
 themeToggle.addEventListener('click',function(){const open=themeMenu.classList.contains('hidden');themeMenu.classList.toggle('hidden',!open);themeToggle.setAttribute('aria-expanded',String(open));});
 chooseOG.addEventListener('click',function(){ogActive=true;localStorage.setItem('zgthub-theme','og');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
 chooseNew.addEventListener('click',function(){ogActive=false;localStorage.setItem('zgthub-theme','new');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
+const quickMenuLaunch=document.getElementById('quickMenuLaunch');
+const quickMenuPanel=document.getElementById('quickMenuPanel');
+function closeQuickMenu(){quickMenuPanel.classList.add('hidden');quickMenuLaunch.setAttribute('aria-expanded','false');}
+quickMenuLaunch.addEventListener('click',function(){const open=quickMenuPanel.classList.contains('hidden');quickMenuPanel.classList.toggle('hidden',!open);quickMenuLaunch.setAttribute('aria-expanded',String(open));});
+document.getElementById('quickMenuClose').addEventListener('click',closeQuickMenu);
+document.getElementById('quickOG').addEventListener('click',function(){ogActive=true;localStorage.setItem('zgthub-theme','og');applyTheme();closeQuickMenu();});
+document.getElementById('quickNew').addEventListener('click',function(){ogActive=false;localStorage.setItem('zgthub-theme','new');applyTheme();closeQuickMenu();});
+quickMenuPanel.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeQuickMenu);});
+
 document.addEventListener('click',function(event){if(!event.target.closest('.theme-picker')){themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');}});applyTheme();
 // Click Rush
 let clicks=0,clickRunning=false,clickEnd=0,clickTimer=null;
