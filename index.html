@@ -48,6 +48,51 @@ body.og-theme .quick-menu-actions button,body.og-theme .quick-menu-actions a{bac
 @media(max-width:540px){.quick-menu-launch{right:12px;bottom:12px}.quick-menu-panel{right:12px;bottom:68px}}
 @media(max-width:850px){.nav{display:none}.topinner{min-height:64px}.topinner>.btn{margin-left:auto}.hero{grid-template-columns:1fr;padding-top:48px}.art{min-height:270px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.twocol{grid-template-columns:1fr}}
 @media(max-width:540px){.wrap{width:91%}.brand small{display:none}.topinner>.btn{padding:9px 11px;font-size:12px}.hero h1{font-size:47px}.art{min-height:225px}.orb{width:140px;height:140px}.ring{width:230px}.ring.two{width:270px}.artmark{font-size:42px}.stats{gap:7px}.stat{padding:12px}.stat b{font-size:14px}.stat span{font-size:10px}.grid{grid-template-columns:1fr}.sectionhead{align-items:start;flex-direction:column}.sectionhead h2{font-size:27px}.footer{padding-bottom:28px}}
+
+/* NEW GUI REDESIGN — inspired by the supplied neon ZGTHUB 404 reference */
+body:not(.og-theme){background:radial-gradient(ellipse at 16% 48%,#190c6b70,transparent 34%),radial-gradient(ellipse at 84% 58%,#091b7770,transparent 37%),linear-gradient(180deg,#030817 0%,#04091b 56%,#020715 100%);--bg:#030817;--panel:#071127;--panel2:#0a1530;--line:#172a5a;--purple:#a020ff;--violet:#382dff;--cyan:#00c8ff;--text:#f4f7ff;--muted:#9eafe6}
+body:not(.og-theme) .topbar{background:#030817eF;backdrop-filter:blur(18px);border-bottom:2px solid transparent;border-image:linear-gradient(90deg,#b020ff,#273dff,#00c8ff) 1}
+body:not(.og-theme) .logo{border-radius:7px;background:linear-gradient(140deg,#b21cff,#4035ff 55%,#00bfff);box-shadow:0 0 24px #4338ff45}
+body:not(.og-theme) .brand{letter-spacing:.025em}
+body:not(.og-theme) .brand small{color:#b7c5ff;border-color:#344b9c;border-radius:5px}
+body:not(.og-theme) .nav a{color:#a9b9ef;border-radius:5px}
+body:not(.og-theme) .nav a:hover{background:#18285a;color:#fff}
+body:not(.og-theme) .btn{background:#0b1531;border-color:#273b82;border-radius:12px}
+body:not(.og-theme) .btn.primary{background:linear-gradient(105deg,#a61cff,#4141ff 55%,#00bfff);border:0}
+body:not(.og-theme) .btn:hover{box-shadow:0 0 24px #473bff55;border-color:#4a8dff}
+body:not(.og-theme) .hero{position:relative;isolation:isolate;padding-top:82px;padding-bottom:52px}
+body:not(.og-theme) .hero:before{content:"";position:absolute;inset:15px -5vw 0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 20% 68%,#2410b950,transparent 34%),radial-gradient(ellipse at 78% 68%,#071d8c70,transparent 40%);opacity:.9}
+body:not(.og-theme) .eyebrow{color:#8ea6ff;letter-spacing:.16em}
+body:not(.og-theme) .hero h1{letter-spacing:-.045em}
+body:not(.og-theme) .gradient{background:linear-gradient(100deg,#d52cff 0%,#573dff 46%,#00c8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+body:not(.og-theme) .art{border-radius:14px;border-color:#273b99;background:radial-gradient(ellipse at 50% 85%,#2210b955,transparent 52%),linear-gradient(145deg,#07112a,#030817 72%);box-shadow:0 0 48px #151caa22}
+body:not(.og-theme) .orb{background:radial-gradient(circle at 30% 25%,#f0d8ff,#b12bff 25%,#423aff 55%,#06112b 78%);box-shadow:0 0 65px #4d36ff70}
+body:not(.og-theme) .ring{border-color:#4f65ff}
+body:not(.og-theme) .ring.two{border-color:#00bfff}
+body:not(.og-theme) .artnote{color:#7fbfff}
+body:not(.og-theme) .stat{background:#071127d9;border-color:#172a5a;border-radius:12px}
+body:not(.og-theme) .card,body:not(.og-theme) .panel{background:linear-gradient(145deg,#09142d,#050b1c);border-color:#172b62;border-radius:13px}
+body:not(.og-theme) .card:hover{border-color:#465cff;box-shadow:0 0 28px #1824a633}
+body:not(.og-theme) .emoji{background:linear-gradient(145deg,#21105b,#0b1e4b);border-color:#283d90;border-radius:10px}
+body:not(.og-theme) .pill{border-color:#2c3d79;color:#b3c4ff}
+body:not(.og-theme) .pill.ready{color:#73e5ff;border-color:#167da5}
+body:not(.og-theme) .pill.dev{color:#d7a8ff;border-color:#7c36ad}
+body:not(.og-theme) .cardlink{color:#7bbdff}
+body:not(.og-theme) .search{background:#071127;border-color:#1e3271;border-radius:10px}
+body:not(.og-theme) .search:focus{border-color:#4d73ff;box-shadow:0 0 0 3px #293fff2b}
+body:not(.og-theme) .filter{background:#071127;border-color:#1d2d65;border-radius:8px}
+body:not(.og-theme) .filter.active,body:not(.og-theme) .filter:hover{background:#1b1b59;border-color:#5754ff}
+body:not(.og-theme) .linkrow{background:#071127;border-color:#172a5a;border-radius:9px}
+body:not(.og-theme) .linkrow:hover{border-color:#4a56ff;background:#101b42}
+body:not(.og-theme) .serverip{background:#030817;border-color:#3e4dbe;color:#c7d4ff}
+body:not(.og-theme) .theme-notice{background:#071127;border-color:#3343a8;color:#c8d4ff;border-radius:10px}
+body:not(.og-theme) .quick-menu-launch{background:linear-gradient(110deg,#a61cff,#4141ff 55%,#00bfff);border:0;border-radius:12px}
+body:not(.og-theme) .quick-menu-panel{background:#071127;border-color:#3343a8;border-radius:12px}
+body:not(.og-theme) .quick-menu-actions button,body:not(.og-theme) .quick-menu-actions a{background:#0b1734;border-color:#243b83;border-radius:8px}
+body:not(.og-theme) .quick-menu-actions button:hover,body:not(.og-theme) .quick-menu-actions a:hover{background:#1a2055;border-color:#00bfff}
+body:not(.og-theme) #toast{background:#09142d;border-color:#4b58ff;border-radius:8px}
+body:not(.og-theme) .footer{border-color:#172a5a}
+
 </style>
 </head>
 <body>
