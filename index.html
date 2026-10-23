@@ -112,6 +112,20 @@ body.show-404 #notFoundPage{display:grid}
 .notfound-foot{margin-top:45px;color:#756a8c;font-size:12px;letter-spacing:.12em}
 @media(max-width:520px){.notfound-hero{gap:14px}.notfound-avatar{width:72px;height:72px;flex-basis:72px;font-size:34px;border-radius:17px}}
 
+
+/* ZGT Planet pixel arcade */
+.notfound-planet-button{display:block;margin:36px auto 0;border:2px solid #7250b5;background:#100e24;padding:14px 18px;color:#f8f5ff;cursor:pointer;box-shadow:5px 5px 0 #34205b;image-rendering:pixelated;font-family:monospace}
+.notfound-planet-button:hover{transform:translateY(-2px);border-color:#67e8f9;box-shadow:5px 5px 0 #155e75}
+.pixel-planet{width:104px;height:104px;margin:0 auto 10px;display:block;image-rendering:pixelated}
+.planet-label{font: bold 13px monospace;letter-spacing:2px;color:#b8a0ff}
+#planetArcade{display:none;position:fixed;inset:0;z-index:999;background:#050611;align-items:center;justify-content:center;padding:16px}
+#planetArcade.open{display:flex}
+.arcade-shell{width:min(900px,100%);border:4px solid #7762b9;background:#0b1027;box-shadow:0 0 0 4px #201743,0 0 45px #7c3aed55;padding:14px;font-family:monospace;color:#e8e8ff}
+.arcade-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;font-weight:bold;letter-spacing:1px}
+.arcade-close,.arcade-restart{background:#211743;color:#fff;border:2px solid #8b5cf6;padding:8px 12px;font-family:monospace;cursor:pointer}
+#planetCanvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#050817;border:2px solid #35427b;image-rendering:pixelated;cursor:crosshair;touch-action:manipulation}
+.arcade-hint{text-align:center;font-size:12px;color:#a7b5ee;margin:10px 0 0}
+
 </style>
 </head>
 <body>
@@ -125,7 +139,18 @@ body.show-404 #notFoundPage{display:grid}
    <a class="notfound-home" href="#home">← Vissza a főoldalra</a>
    <button class="notfound-back" id="notFoundBack" type="button">Vissza az előző oldalra</button>
   </div>
-  <div class="notfound-foot">ZGT NEVER DIES · ZND</div>
+  <button class="notfound-planet-button" id="openPlanetArcade" type="button" aria-label="ZGT bolygó lövőjáték megnyitása">
+  <svg class="pixel-planet" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+   <rect width="16" height="16" fill="none"/>
+   <path fill="#5940a6" d="M5 1h6v1h2v2h1v2h1v4h-1v2h-2v2H9v1H5v-1H3v-2H2v-2H1V6h1V4h2V2h1z"/>
+   <path fill="#a78bfa" d="M5 2h5v1h2v2h1v2h-2V6H8V5H6V4H4V3h1z"/>
+   <path fill="#67e8f9" d="M2 6h3v1h2v2H5v2H3V9H2zM9 10h2v1h2v1h-3v1H8v-2h1z"/>
+   <path fill="#312e81" d="M5 13h4v1H5zM12 4h1v2h-1z"/>
+   <path fill="#fff" d="M5 4h1v1H5zM10 8h1v1h-1z"/>
+  </svg>
+  <span class="planet-label">▶ ZGT PLANET BLASTER</span>
+ </button>
+ <div class="notfound-foot">ZGT NEVER DIES · ZND</div>
  </div>
 </section>
 <header class="topbar"><div class="wrap topinner">
@@ -282,6 +307,35 @@ document.getElementById('tttReset').addEventListener('click',function(){tttCells
 let luckyNumber=Math.floor(Math.random()*20)+1,luckyTries=0;
 document.getElementById('luckyGuess').addEventListener('click',function(){const input=document.getElementById('luckyInput'),n=Number(input.value);if(!input.value||n<1||n>20||!Number.isInteger(n)){document.getElementById('luckyStatus').textContent='Írj be egy egész számot 1 és 20 között!';return;}luckyTries++;document.getElementById('luckyStatus').textContent=n===luckyNumber?'🎉 Eltaláltad '+luckyTries+' próbálkozásból!':n<luckyNumber?'Nagyobb számra gondoltam. Próbák: '+luckyTries:'Kisebb számra gondoltam. Próbák: '+luckyTries;});
 document.getElementById('luckyReset').addEventListener('click',function(){luckyNumber=Math.floor(Math.random()*20)+1;luckyTries=0;document.getElementById('luckyInput').value='';document.getElementById('luckyStatus').textContent='Új szám! Találd ki 1 és 20 között.';});
+
+// ZGT Planet Blaster: tiny pixel-art arcade game on the 404 screen.
+const arcade=document.getElementById('planetArcade'),canvas=document.getElementById('planetCanvas'),ctx=canvas.getContext('2d');
+const scoreEl=document.getElementById('arcadeScore'),statusEl=document.getElementById('arcadeStatus');
+let arcadeRunning=false,arcadeScore=0,arcadeFrame=0,asteroids=[],rockets=[],stars=[];
+function resetArcade(){arcadeScore=0;arcadeFrame=0;asteroids=[];rockets=[];stars=Array.from({length:44},()=>({x:Math.random()*320,y:Math.random()*180,s:Math.random()<.7?1:2}));for(let i=0;i<5;i++)spawnAsteroid(true);scoreEl.textContent='SCORE: 0000';statusEl.textContent='DEFEND THE ZGT PLANET!';}
+function spawnAsteroid(initial){asteroids.push({x:initial?120+Math.random()*190:320+Math.random()*25,y:12+Math.random()*145,size:initial?5+Math.floor(Math.random()*4):5+Math.floor(Math.random()*4,speed:0.45+Math.random()*0.6,hp:1});}
+function pixelShip(x,y){ctx.fillStyle='#7c3aed';ctx.fillRect(x-6,y-6,12,12);ctx.fillStyle='#c4b5fd';ctx.fillRect(x-4,y-8,8,3);ctx.fillStyle='#67e8f9';ctx.fillRect(x-2,y-2,4,5);ctx.fillStyle='#312e81';ctx.fillRect(x-9,y-2,3,7);ctx.fillRect(x+6,y-2,3,7);}
+function drawAsteroid(a){ctx.fillStyle='#9b6653';ctx.fillRect(a.x-a.size,a.y-a.size/2,a.size*2,a.size);ctx.fillRect(a.x-a.size/2,a.y-a.size,a.size,a.size*2);ctx.fillStyle='#d6a27c';ctx.fillRect(a.x-a.size/2,a.y-a.size/2,3,3);ctx.fillStyle='#65445a';ctx.fillRect(a.x+a.size/3,a.y,3,2);}
+function drawArcade(){if(!arcadeRunning)return;arcadeFrame++;ctx.fillStyle='#050817';ctx.fillRect(0,0,320,180);stars.forEach(st=>{ctx.fillStyle=arcadeFrame%50<25?'#5b6b9d':'#b9c8ff';ctx.fillRect(st.x,st.y,st.s,st.s);});
+ // distant pixel nebula
+ ctx.fillStyle='#11133a';ctx.fillRect(0,22,74,2);ctx.fillRect(20,24,46,2);ctx.fillStyle='#17214a';ctx.fillRect(244,145,70,2);
+ // ZGT planet at the left
+ ctx.fillStyle='#3b277e';ctx.fillRect(12,64,40,40);ctx.fillRect(18,58,28,52);ctx.fillStyle='#8b5cf6';ctx.fillRect(18,64,28,40);ctx.fillStyle='#67e8f9';ctx.fillRect(18,72,10,7);ctx.fillRect(30,86,12,6);ctx.fillStyle='#c4b5fd';ctx.fillRect(26,66,5,5);ctx.fillStyle='#24144f';ctx.fillRect(18,98,28,6);
+ // planet defence ring
+ ctx.fillStyle='#4c4b9a';ctx.fillRect(7,81,5,2);ctx.fillRect(52,81,5,2);
+ if(arcadeFrame%48===0)spawnAsteroid(false);
+ asteroids.forEach(a=>{a.x-=a.speed;drawAsteroid(a);});
+ rockets.forEach(r=>{r.x+=4.2;ctx.fillStyle='#67e8f9';ctx.fillRect(r.x,r.y,5,2);ctx.fillStyle='#fff';ctx.fillRect(r.x+3,r.y,2,2);});
+ for(let i=asteroids.length-1;i>=0;i--){if(asteroids[i].x<52){asteroids.splice(i,1);statusEl.textContent='ASTEROID HIT THE PLANET! KEEP GOING!';}}
+ for(let i=rockets.length-1;i>=0;i--){const r=rockets[i];let hit=-1;for(let j=0;j<asteroids.length;j++){if(Math.abs(r.x-asteroids[j].x)<asteroids[j].size+4&&Math.abs(r.y-asteroids[j].y)<asteroids[j].size+4){hit=j;break;}}if(hit>=0){const a=asteroids.splice(hit,1)[0];rockets.splice(i,1);arcadeScore+=100;scoreEl.textContent='SCORE: '+String(arcadeScore).padStart(4,'0');statusEl.textContent='NICE SHOT! +100';ctx.fillStyle='#fef08a';ctx.fillRect(a.x-5,a.y-5,10,10);}else if(r.x>320)rockets.splice(i,1);}
+ pixelShip(32,84);requestAnimationFrame(drawArcade);}
+function fireRocket(event){if(!arcadeRunning)return;const rect=canvas.getBoundingClientRect();const x=(event.clientX-rect.left)/rect.width*320,y=(event.clientY-rect.top)/rect.height*180;let target=null,best=Infinity;asteroids.forEach(a=>{const d=Math.hypot(a.x-x,a.y-y);if(d<best){best=d;target=a;}});const aim=target||asteroids.reduce((best,a)=>!best||a.x>best.x?a:best,null);rockets.push({x:48,y:84});if(aim){const rocket=rockets[rockets.length-1];rocket.y=84;rocket.targetX=aim.x;rocket.targetY=aim.y;rocket.y=aim.y;statusEl.textContent='ROCKET LAUNCHED!';}}
+document.getElementById('openPlanetArcade').addEventListener('click',function(){arcade.classList.add('open');arcadeRunning=true;resetArcade();requestAnimationFrame(drawArcade);});
+document.getElementById('closePlanetArcade').addEventListener('click',function(){arcadeRunning=false;arcade.classList.remove('open');});
+document.getElementById('restartPlanetArcade').addEventListener('click',function(){resetArcade();});
+canvas.addEventListener('click',fireRocket);
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&arcade.classList.contains('open')){arcadeRunning=false;arcade.classList.remove('open');}});
+
 })();
 </script>
 </body>
