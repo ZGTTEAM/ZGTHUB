@@ -93,9 +93,41 @@ body:not(.og-theme) .quick-menu-actions button:hover,body:not(.og-theme) .quick-
 body:not(.og-theme) #toast{background:#09142d;border-color:#4b58ff;border-radius:8px}
 body:not(.og-theme) .footer{border-color:#172a5a}
 
+
+/* Dedicated client-side 404 view for unknown hash routes */
+#notFoundPage{display:none;min-height:100vh;place-items:center;padding:42px 20px;background:radial-gradient(ellipse at 70% 20%,#31206470,transparent 45%),radial-gradient(ellipse at 20% 80%,#073d5c55,transparent 42%),#080812}
+body.show-404{background:#080812}
+body.show-404>:not(#notFoundPage):not(script){display:none!important}
+body.show-404 #notFoundPage{display:grid}
+.notfound-wrap{width:min(850px,100%);text-align:center}
+.notfound-brand{font-size:14px;letter-spacing:.24em;font-weight:900;color:#d8c8ff}
+.notfound-hero{display:flex;align-items:center;justify-content:center;gap:30px;margin:28px auto 12px}
+.notfound-avatar{width:112px;height:112px;flex:0 0 112px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(145deg,#21153e,#0c1e35);border:1px solid #6b42b9;box-shadow:0 0 45px #7c3aed40;font-size:50px}
+.notfound-code{font-size:clamp(90px,18vw,170px);font-weight:1000;letter-spacing:-.09em;line-height:.95;background:linear-gradient(110deg,#c084fc,#818cf8 52%,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.notfound-wrap h1{font-size:clamp(25px,4vw,38px);margin:18px 0 8px}
+.notfound-wrap p{max-width:550px;margin:0 auto;color:#b9b2ca}
+.notfound-actions{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px;margin:28px 0}
+.notfound-home{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:12px;background:linear-gradient(110deg,#9333ea,#4f46e5,#0891b2);font-weight:800;box-shadow:0 8px 30px #6d28d940}
+.notfound-back{border:0;background:transparent;color:#d7c7ff;text-decoration:underline;cursor:pointer;padding:10px}
+.notfound-foot{margin-top:45px;color:#756a8c;font-size:12px;letter-spacing:.12em}
+@media(max-width:520px){.notfound-hero{gap:14px}.notfound-avatar{width:72px;height:72px;flex-basis:72px;font-size:34px;border-radius:17px}}
+
 </style>
 </head>
 <body>
+<section id="notFoundPage" aria-labelledby="notFoundTitle">
+ <div class="notfound-wrap">
+  <div class="notfound-brand">ZGTHUB <span style="color:#67e8f9">/</span> ZGT UNIVERSE</div>
+  <div class="notfound-hero"><div class="notfound-avatar" aria-hidden="true">🟪</div><div class="notfound-code">404</div></div>
+  <h1 id="notFoundTitle">Az oldal nem található</h1>
+  <p>Úgy tűnik, ez a link nem vezet sehova. Lehet, hogy rossz címet írtál be, vagy ez az oldal már nem létezik.</p>
+  <div class="notfound-actions">
+   <a class="notfound-home" href="#home">← Vissza a főoldalra</a>
+   <button class="notfound-back" id="notFoundBack" type="button">Vissza az előző oldalra</button>
+  </div>
+  <div class="notfound-foot">ZGT NEVER DIES · ZND</div>
+ </div>
+</section>
 <header class="topbar"><div class="wrap topinner">
 <a class="brand" href="#home"><span class="logo">Z</span><span>ZGTHUB</span><small>V2 · ZGT UNIVERSE</small></a>
 <nav class="nav" aria-label="Fő navigáció"><a href="#projects">Projektek</a><a href="#social">Social</a><a href="#games">Játékok</a><a href="#updates">Update Wall</a><a href="#about">A ZGT-ről</a><a href="#links">Linkek</a></nav>
@@ -163,17 +195,26 @@ body:not(.og-theme) .footer{border-color:#172a5a}
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
- // Redirect unknown hash links to the ZGTHUB #404 address.
+ // Unknown hash routes show the custom 404 view inside this single-page site.
  const validHashes=new Set(Array.from(document.querySelectorAll('[id]')).map(function(el){return el.id;}));
  validHashes.add('404');
  function validateHash(){
-  const hash=decodeURIComponent((window.location.hash||'').replace(/^#/, ''));
-  if(hash && !validHashes.has(hash)){
-   window.location.replace(window.location.pathname+window.location.search+'#404');
+  let hash='';
+  try{hash=decodeURIComponent((window.location.hash||'').replace(/^#/,''));}catch(e){hash='';}
+  if(hash==='404'){
+   document.body.classList.add('show-404');
+   return;
   }
+  if(hash && !validHashes.has(hash)){
+   document.body.classList.add('show-404');
+   window.location.replace(window.location.pathname+window.location.search+'#404');
+   return;
+  }
+  document.body.classList.remove('show-404');
  }
  validateHash();
  window.addEventListener('hashchange',validateHash);
+ document.getElementById('notFoundBack').addEventListener('click',function(){if(window.history.length>1)window.history.back();else window.location.hash='#home';});
 
 const search=document.getElementById('projectSearch');
 const cards=Array.from(document.querySelectorAll('#projectGrid .card'));
