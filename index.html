@@ -97,7 +97,7 @@ body:not(.og-theme) .footer{border-color:#172a5a}
 /* Dedicated client-side 404 view for unknown hash routes */
 #notFoundPage{display:none;min-height:100vh;place-items:center;padding:42px 20px;background:radial-gradient(ellipse at 70% 20%,#31206470,transparent 45%),radial-gradient(ellipse at 20% 80%,#073d5c55,transparent 42%),#080812}
 body.show-404{background:#080812}
-body.show-404>:not(#notFoundPage):not(script){display:none!important}
+body.show-404>:not(#notFoundPage):not(#planetArcade):not(script){display:none!important}
 body.show-404 #notFoundPage{display:grid}
 .notfound-wrap{width:min(850px,100%);text-align:center}
 .notfound-brand{font-size:14px;letter-spacing:.24em;font-weight:900;color:#d8c8ff}
@@ -218,6 +218,15 @@ body.show-404 #notFoundPage{display:grid}
 <footer class="wrap footer"><span>© ZGT · ZGTHUB · 2026</span><span><strong>ZGT NEVER DIES.</strong> ZND.</span><span>Új verzió · Valódi linkek, nincs hamis online számláló.</span></footer>
 <div id="quickMenuPanel" class="quick-menu-panel hidden" role="dialog" aria-label="ZGTHUB Quick Menu"><div class="quick-menu-title"><span>⚡ Quick Menu</span><button class="quick-menu-close" id="quickMenuClose" type="button" aria-label="Bezárás">×</button></div><div class="quick-menu-actions"><button id="quickOG" type="button">🟣 OG kinézet</button><button id="quickNew" type="button">✨ Új GUI</button><a href="#projects">🧩 Projektek</a><a href="#social">📣 Social</a><a href="#games">🎮 Játékok</a><a href="#updates">🛠️ Update Wall</a><a class="wide" href="#links">🌐 ZGT linkek</a></div></div><button id="quickMenuLaunch" class="quick-menu-launch" type="button" aria-expanded="false" aria-controls="quickMenuPanel">⚡ Quick Menu</button>
 <div id="toast" role="status" aria-live="polite"></div>
+<div id="planetArcade" role="dialog" aria-modal="true" aria-label="ZGT Planet Blaster">
+ <div class="arcade-shell">
+  <div class="arcade-top"><span>★ ZGT PLANET BLASTER ★</span><span id="arcadeScore">SCORE: 0000</span><button class="arcade-close" id="closePlanetArcade" type="button">[ X ]</button></div>
+  <canvas id="planetCanvas" width="320" height="180" aria-label="Kattints az aszteroidákra, hogy a ZGT bolygó rakétákat lőjön ki"></canvas>
+  <div class="arcade-top" style="margin-top:10px;margin-bottom:0"><span id="arcadeStatus">READY PLAYER ONE</span><button class="arcade-restart" id="restartPlanetArcade" type="button">RESTART ↻</button></div>
+  <p class="arcade-hint">KATTINTS A KÖZELEDŐ ASZTEROIDÁKRA! A ZGT BOLYGÓ RAKÉTÁKKAL VÉDI MAGÁT.</p>
+ </div>
+</div>
+
 <script>
 (function(){
  // Unknown hash routes show the custom 404 view inside this single-page site.
@@ -338,13 +347,5 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&arcade.clas
 
 })();
 </script>
-<div id="planetArcade" role="dialog" aria-modal="true" aria-label="ZGT Planet Blaster">
- <div class="arcade-shell">
-  <div class="arcade-top"><span>★ ZGT PLANET BLASTER ★</span><span id="arcadeScore">SCORE: 0000</span><button class="arcade-close" id="closePlanetArcade" type="button">[ X ]</button></div>
-  <canvas id="planetCanvas" width="320" height="180" aria-label="Kattints az aszteroidákra, hogy a ZGT bolygó rakétákat lőjön ki"></canvas>
-  <div class="arcade-top" style="margin-top:10px;margin-bottom:0"><span id="arcadeStatus">READY PLAYER ONE</span><button class="arcade-restart" id="restartPlanetArcade" type="button">RESTART ↻</button></div>
-  <p class="arcade-hint">KATTINTS A KÖZELEDŐ ASZTEROIDÁKRA! A ZGT BOLYGÓ RAKÉTÁKKAL VÉDI MAGÁT.</p>
- </div>
-</div>
 </body>
 </html>
