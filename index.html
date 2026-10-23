@@ -339,8 +339,11 @@ function drawArcade(){if(!arcadeRunning)return;arcadeFrame++;ctx.fillStyle='#050
  for(let i=rockets.length-1;i>=0;i--){const r=rockets[i];let hit=-1;for(let j=0;j<asteroids.length;j++){if(Math.abs(r.x-asteroids[j].x)<asteroids[j].size+4&&Math.abs(r.y-asteroids[j].y)<asteroids[j].size+4){hit=j;break;}}if(hit>=0){const a=asteroids.splice(hit,1)[0];rockets.splice(i,1);arcadeScore+=100;scoreEl.textContent='SCORE: '+String(arcadeScore).padStart(4,'0');statusEl.textContent='NICE SHOT! +100';ctx.fillStyle='#fef08a';ctx.fillRect(a.x-5,a.y-5,10,10);}else if(r.x>320)rockets.splice(i,1);}
  pixelShip(32,84);requestAnimationFrame(drawArcade);}
 function fireRocket(event){if(!arcadeRunning)return;const rect=canvas.getBoundingClientRect();const x=(event.clientX-rect.left)/rect.width*320,y=(event.clientY-rect.top)/rect.height*180;let target=null,best=Infinity;asteroids.forEach(a=>{const d=Math.hypot(a.x-x,a.y-y);if(d<best){best=d;target=a;}});const aim=target||asteroids.reduce((best,a)=>!best||a.x>best.x?a:best,null);rockets.push({x:48,y:84,target:aim});if(aim){statusEl.textContent='ROCKET LAUNCHED!';}}
-document.getElementById('openPlanetArcade').addEventListener('click',function(){arcade.classList.add('open');arcadeRunning=true;resetArcade();requestAnimationFrame(drawArcade);});
-document.getElementById('closePlanetArcade').addEventListener('click',function(){arcadeRunning=false;arcade.classList.remove('open');});
+function openPlanetGame(){arcade.classList.add('open');arcade.style.display='flex';arcadeRunning=true;resetArcade();requestAnimationFrame(drawArcade);}
+document.getElementById('openPlanetArcade').addEventListener('click',openPlanetGame);
+document.getElementById('openPlanetArcade').addEventListener('pointerup',function(e){if(e.pointerType==='touch')openPlanetGame();});
+document.getElementById('closePlanetArcade').addEventListener('click',function(){arcadeRunning=false;arcade.classList.remove('open');arcade.style.display='none';});
+
 document.getElementById('restartPlanetArcade').addEventListener('click',function(){resetArcade();});
 canvas.addEventListener('click',fireRocket);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&arcade.classList.contains('open')){arcadeRunning=false;arcade.classList.remove('open');}});
