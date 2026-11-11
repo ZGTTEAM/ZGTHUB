@@ -126,6 +126,39 @@ body.show-404 #notFoundPage{display:grid}
 #planetCanvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#050817;border:2px solid #35427b;image-rendering:pixelated;cursor:crosshair;touch-action:manipulation}
 .arcade-hint{text-align:center;font-size:12px;color:#a7b5ee;margin:10px 0 0}
 
+/* CHRISTMAS TIME! PART 1 — ZGTHUB V2.01 */
+:root{--bg:#07150f;--panel:#10251a;--panel2:#173323;--line:#31583d;--purple:#dc3545;--violet:#a91f32;--cyan:#f6d36b;--text:#fff8e9;--muted:#c1d4c4;--green:#9be7a6}
+body{background:radial-gradient(ellipse at 50% -15%,#1c6b3d70,transparent 45%),radial-gradient(ellipse at 0% 65%,#7d172b30,transparent 38%),#07150f}
+.topbar{background:#07150feF;border-bottom:2px solid #b92d3c}
+.logo{background:linear-gradient(145deg,#e7c96b,#b92d3c 70%);box-shadow:0 0 25px #b92d3c55}
+.brand small,.eyebrow{color:#f3d77b;border-color:#a92c3c66}
+.btn{background:#173323;border-color:#b92d3c66}
+.btn.primary{background:linear-gradient(120deg,#b42336,#176b3b 72%,#d6ad48)}
+.btn:hover{border-color:#f3d77b;box-shadow:0 8px 24px #b92d3c25}
+.gradient{background:linear-gradient(90deg,#f6d36b,#fff4dc 45%,#e75b69);-webkit-background-clip:text;background-clip:text;color:transparent}
+.art.christmas-art{border-color:#b92d3c88;background:radial-gradient(circle at 50% 40%,#1d6b3d88,transparent 48%),linear-gradient(145deg,#173323,#09150f 72%);box-shadow:0 25px 80px #0007}
+.tree-emoji{font-size:clamp(115px,18vw,190px);filter:drop-shadow(0 0 24px #e5c45a55);line-height:1}
+.tree-star{position:absolute;top:28px;color:#f6d36b;font-size:36px;text-shadow:0 0 18px #f6d36b}
+.art.christmas-art .artmark{position:absolute;top:24px;right:25px;font-size:23px;color:#f7e6bd}
+.art.christmas-art .artnote{color:#f6d36b}
+.stat,.card,.panel{background:linear-gradient(145deg,#142d20,#0b1b12);border-color:#31583d}
+.card:hover{border-color:#d4b45c;box-shadow:0 14px 35px #0005}
+.emoji{background:linear-gradient(145deg,#7e1e2d,#17452b);border-color:#b92d3c66}
+.pill{border-color:#496c50}
+.pill.ready{color:#a5efae;border-color:#4b9b5b}
+.pill.dev{color:#f6d36b;border-color:#b68a38}
+.cardlink,.linkrow span:last-child,.footer strong{color:#f3d77b}
+.search,.filter,.linkrow{background:#0d2116;border-color:#31583d}
+.search:focus,.filter.active,.filter:hover,.linkrow:hover{border-color:#d5b65b;background:#173323}
+.serverip{background:#07150f;border-color:#b92d3c;color:#f6e5b5}
+#toast{background:#173323;border-color:#d5b65b}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:8;opacity:.48;background-image:radial-gradient(2px 2px at 18px 32px,#fff 98%,transparent),radial-gradient(2px 2px at 78px 92px,#fff 98%,transparent),radial-gradient(1.5px 1.5px at 138px 52px,#fff 98%,transparent),radial-gradient(2px 2px at 198px 122px,#fff 98%,transparent);background-size:220px 160px;animation:christmasSnow 12s linear infinite}
+@keyframes christmasSnow{from{background-position:0 -160px}to{background-position:0 160px}}
+@media(prefers-reduced-motion:reduce){body:before{animation:none}}
+
+
+body.og-theme{--bg:#07150f;--panel:#10251a;--panel2:#173323;--line:#31583d;--purple:#dc3545;--violet:#a91f32;--cyan:#f6d36b;--text:#fff8e9;--muted:#c1d4c4;--green:#9be7a6;background:radial-gradient(ellipse at 50% -15%,#1c6b3d70,transparent 45%),radial-gradient(ellipse at 0 65%,#7d172b30,transparent 38%),#07150f}
+body.og-theme .topbar{background:#07150fee;border-bottom:2px solid #b92d3c}body.og-theme .logo{background:linear-gradient(145deg,#e7c96b,#b92d3c 70%);box-shadow:0 0 25px #b92d3c55}body.og-theme .stat,body.og-theme .card,body.og-theme .panel{background:linear-gradient(145deg,#142d20,#0b1b12);border-color:#31583d;border-radius:20px}body.og-theme .btn,body.og-theme .filter{border-radius:12px}body.og-theme .btn.primary{background:linear-gradient(120deg,#b42336,#176b3b 72%,#d6ad48)}body.og-theme .art{border-radius:22px;background:radial-gradient(circle at 50% 40%,#1d6b3d88,transparent 48%),linear-gradient(145deg,#173323,#09150f)}body.og-theme .card:hover{transform:translateY(-4px);box-shadow:0 14px 35px #0005;border-color:#d4b45c}body.og-theme .emoji{background:linear-gradient(145deg,#7e1e2d,#17452b)}body.og-theme .theme-notice{border-radius:12px;background:#10251a;border-color:#b92d3c}
 </style>
 </head>
 <body>
@@ -154,22 +187,22 @@ body.show-404 #notFoundPage{display:grid}
  </div>
 </section>
 <header class="topbar"><div class="wrap topinner">
-<a class="brand" href="#home"><span class="logo">Z</span><span>ZGTHUB</span><small>V2 · ZGT UNIVERSE</small></a>
+<a class="brand" href="#home"><span class="logo">Z</span><span>ZGTHUB</span><small>V2.01 · CHRISTMAS</small></a>
 <nav class="nav" aria-label="Fő navigáció"><a href="#projects">Projektek</a><a href="#social">Social</a><a href="#games">Játékok</a><a href="#updates">Update Wall</a><a href="#about">A ZGT-ről</a><a href="#links">Linkek</a></nav>
 <div class="theme-picker"><button class="btn" id="themeToggle" type="button" aria-expanded="false">🎨 Kinézetek</button><div class="theme-menu hidden" id="themeMenu"><button class="theme-option" id="chooseOG" type="button">🟣 OG kinézet</button><button class="theme-option" id="chooseNew" type="button">✨ Új GUI</button></div></div>
 <a class="btn primary" href="https://www.youtube.com/@AZAZGT" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
 </div></header>
 <main>
 <section class="wrap hero" id="home">
-<div><div class="eyebrow">ZGT TEAM · HIVATALOS KÖZPONT</div>
-<h1>A ZGT<br><span class="gradient">UNIVERZUMA.</span></h1>
+<div><div class="eyebrow">🎄 ZGT TEAM · CHRISTMAS TIME! PART 1</div>
+<h1>CHRISTMAS<br><span class="gradient">TIME!</span></h1>
 <p>Üdv a ZGTHUB új verziójában. Itt találod a ZGT projektjeit, játékait, fejlesztéseit és hivatalos közösségi linkjeit — egy helyen, egy valódi, működő weboldalon.</p>
 <div class="actions"><a class="btn primary" href="#projects">Projektek felfedezése ↓</a></div>
 </div>
-<div class="art" aria-label="ZGT neon embléma"><div class="orb"></div><div class="ring"></div><div class="ring two"></div><div class="artmark">ZGT</div><div class="artnote">ZGT NEVER DIES · ZND</div></div>
+<div class="art christmas-art" aria-label="Karácsonyfa"><div class="tree-star">★</div><div class="tree-emoji">🎄</div><div class="artmark">ZGT</div><div class="artnote">ZGT NEVER DIES · ZND</div></div>
 </section>
 <div class="wrap stats"><div class="stat"><b>🎮 Játékok</b><span>Saját játékok és online projektek</span></div><div class="stat"><b>🧪 Fejlesztés</b><span>Új ötletek és ZGT Apps</span></div><div class="stat"><b>🌐 Központ</b><span>A ZGT linkjei egy helyen</span></div></div>
-<section class="wrap content" id="theme-info"><div class="theme-notice" id="themeNotice">🟣 <strong>OG hónap aktiválva!</strong> A klasszikus ZGTHub-kinézet 2026. november 23-ig tart. Az új GUI-k, a Social és az Update Wall közben megmaradnak. A fejléc gombjával bármikor válthatsz.</div></section>
+<section class="wrap content" id="theme-info"><div class="theme-notice" id="themeNotice">🎄 <strong>CHRISTMAS TIME! PART 1</strong> Az OG stílus véget ért! Megérkezett a karácsonyi ZGTHUB dizájn és a karácsonyfa-készítős 404-es oldal.</div></section>
 <section class="wrap content" id="projects">
 <div class="sectionhead"><div><div class="eyebrow">FELFEDEZÉS</div><h2>ZGT projektek</h2><p>Keress rá a projektekre, vagy szűrd őket kategória szerint.</p></div></div>
 <div class="searchrow"><input id="projectSearch" class="search" type="search" placeholder="Projekt keresése…" aria-label="Projekt keresése"><div class="filters" role="group" aria-label="Kategória szűrő"><button class="filter active" data-filter="all">Mind</button><button class="filter" data-filter="game">Játék</button><button class="filter" data-filter="web">Web</button><button class="filter" data-filter="community">Közösség</button></div></div>
@@ -193,6 +226,7 @@ body.show-404 #notFoundPage{display:grid}
 </section>\n<section class="wrap content" id="updates">
 <div class="sectionhead"><div><div class="eyebrow">ZGT UPDATE WALL</div><h2>Update Wall</h2><p>A ZGT projektjeinek frissítései egy helyen.</p></div></div>
 <div class="grid">
+<article class="card" data-search="christmas time karácsony karácsonyfa zgthub v2.01"><div class="cardtop"><div class="emoji">🎄</div><span class="pill ready">ÚJ UPDATE</span></div><h3>CHRISTMAS TIME! PART 1</h3><p>Az OG stílus véget ért! Megérkezett a karácsonyi dizájn és az új „KÉSZÍTS KARÁCSONYFÁT!” 404-es oldal.</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><span class="cardlink">Christmas Edition</span></div></article>
 <article class="card" data-search="social chat games update part 2"><div class="cardtop"><div class="emoji">🚀</div><span class="pill ready">ÚJ · PART 2</span></div><h3>Social, Chat &amp; Games — Part 2</h3><p>A ZGTHUB frissítése a közösségi hírekre, a ZGT CHAT gyors elérésére és a játékprojektek jobb felfedezésére fókuszál. A fejlesztés alatt álló játékokat külön jelöljük.</p><div class="cardfoot"><span class="muted">2026. 10. 23.</span><span class="cardlink">ZGTHUB Update</span></div></article>
 <article class="card" data-search="zgthub social frissítés weboldal"><div class="cardtop"><div class="emoji">🌐</div><span class="pill ready">Frissítés</span></div><h3>ZGTHUB Social-frissítés</h3><p>A ZGTHUB-on megjelent a Social-posztok szekció, hogy könnyebben megtaláld a ZGT projektjeinek híreit.</p><div class="cardfoot"><span class="muted">2026. 10. 22.</span><span class="cardlink">ZGTHUB</span></div></article>
 <article class="card" data-search="zgt smp minecraft szerver megszűnt lezárva"><div class="cardtop"><div class="emoji">⛏️</div><span class="pill">Lezárva</span></div><h3>ZGT SMP</h3><p>A ZGT SMP már nem aktív projekt, ezért a csatlakozási címe kikerült a ZGTHUB-ról.</p><div class="cardfoot"><span class="muted">Projektállapot</span><span class="cardlink">Lezárva</span></div></article>
@@ -288,8 +322,8 @@ const chooseNew=document.getElementById('chooseNew');
 const eventEnd=new Date('2026-11-23T23:59:59');
 const today=new Date();
 const storedTheme=localStorage.getItem('zgthub-theme');
-let ogActive=storedTheme ? storedTheme==='og' : today < eventEnd;
-function applyTheme(){document.body.classList.toggle('og-theme',ogActive);chooseOG.classList.toggle('active',ogActive);chooseNew.classList.toggle('active',!ogActive);if(themeNotice)themeNotice.innerHTML=ogActive?'🟣 <strong>OG hónap aktiválva!</strong> A klasszikus ZGTHub-kinézet 2026. november 23-ig tart. Az új GUI-k, a Social és az Update Wall közben megmaradnak. A fejléc gombjával bármikor válthatsz.':'✨ <strong>Új GUI aktiválva!</strong> A modern ZGTHub-dizájn fut. Az OG kinézetet a fejléc gombjával bármikor visszakapcsolhatod.';}
+let ogActive=false; // CHRISTMAS TIME! overrides the previous OG-month default.
+function applyTheme(){document.body.classList.toggle('og-theme',ogActive);chooseOG.classList.toggle('active',ogActive);chooseNew.classList.toggle('active',!ogActive);if(themeNotice)themeNotice.innerHTML='🎄 <strong>CHRISTMAS TIME! PART 1</strong> Az OG stílus véget ért! Karácsonyi dizájn aktív.';}
 themeToggle.addEventListener('click',function(){const open=themeMenu.classList.contains('hidden');themeMenu.classList.toggle('hidden',!open);themeToggle.setAttribute('aria-expanded',String(open));});
 chooseOG.addEventListener('click',function(){ogActive=true;localStorage.setItem('zgthub-theme','og');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
 chooseNew.addEventListener('click',function(){ogActive=false;localStorage.setItem('zgthub-theme','new');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
