@@ -164,6 +164,10 @@ body.og-theme .topbar{background:#07150fee;border-bottom:2px solid #b92d3c}body.
 .theme-redeem input{flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text)}
 .theme-status{font-size:13px;color:var(--muted);margin-top:10px;min-height:22px}
 
+
+/* OG theme selector is locked until the secret reward is redeemed */
+#chooseOG{display:none}
+body.og-unlocked #chooseOG{display:block}
 </style>
 </head>
 <body>
@@ -231,7 +235,7 @@ body.og-theme .topbar{background:#07150fee;border-bottom:2px solid #b92d3c}body.
 </section>\n<section class="wrap content" id="updates">
 <div class="sectionhead"><div><div class="eyebrow">ZGT UPDATE WALL</div><h2>Update Wall</h2><p>A ZGT projektjeinek frissítései egy helyen.</p></div></div>
 <div class="grid">
-<article class="card" data-search="secret reward rickroll og style titkos kód"><div class="cardtop"><div class="emoji">🔐</div><span class="pill ready">SECRET REWARD</span></div><h3>OG STYLE SECRET REWARD</h3><p>Írd be az oldalon, hogy „rickroll”, szerezd meg a kódot, és aktiváld az OG kinézetet 30 napra!</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><a class="btn primary" href="#og-reward">🎁 Kód beváltása</a></div></article><article class="card" data-search="christmas time karácsony karácsonyfa zgthub v2.01"><div class="cardtop"><div class="emoji">🎄</div><span class="pill ready">ÚJ UPDATE</span></div><h3>CHRISTMAS TIME! PART 1</h3><p>Az OG stílus véget ért! Megérkezett a karácsonyi dizájn és az új „KÉSZÍTS KARÁCSONYFÁT!” 404-es oldal.</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><span class="cardlink">Christmas Edition</span></div></article>
+<article class="card" data-search="secret reward rickroll og style titkos kód"><div class="cardtop"><div class="emoji">🔐</div><span class="pill ready">SECRET REWARD</span></div><h3>OG STYLE SECRET REWARD</h3><p>Találd meg a rejtett easter egget, oldd fel a secret kódot, és aktiváld az OG kinézetet 30 napra!</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><a class="btn primary" href="#og-reward">🎁 Kód beváltása</a></div></article><article class="card" data-search="christmas time karácsony karácsonyfa zgthub v2.01"><div class="cardtop"><div class="emoji">🎄</div><span class="pill ready">ÚJ UPDATE</span></div><h3>CHRISTMAS TIME! PART 1</h3><p>Az OG stílus véget ért! Megérkezett a karácsonyi dizájn és az új „KÉSZÍTS KARÁCSONYFÁT!” 404-es oldal.</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><span class="cardlink">Christmas Edition</span></div></article>
 <article class="card" data-search="social chat games update part 2"><div class="cardtop"><div class="emoji">🚀</div><span class="pill ready">ÚJ · PART 2</span></div><h3>Social, Chat &amp; Games — Part 2</h3><p>A ZGTHUB frissítése a közösségi hírekre, a ZGT CHAT gyors elérésére és a játékprojektek jobb felfedezésére fókuszál. A fejlesztés alatt álló játékokat külön jelöljük.</p><div class="cardfoot"><span class="muted">2026. 10. 23.</span><span class="cardlink">ZGTHUB Update</span></div></article>
 <article class="card" data-search="zgthub social frissítés weboldal"><div class="cardtop"><div class="emoji">🌐</div><span class="pill ready">Frissítés</span></div><h3>ZGTHUB Social-frissítés</h3><p>A ZGTHUB-on megjelent a Social-posztok szekció, hogy könnyebben megtaláld a ZGT projektjeinek híreit.</p><div class="cardfoot"><span class="muted">2026. 10. 22.</span><span class="cardlink">ZGTHUB</span></div></article>
 <article class="card" data-search="zgt smp minecraft szerver megszűnt lezárva"><div class="cardtop"><div class="emoji">⛏️</div><span class="pill">Lezárva</span></div><h3>ZGT SMP</h3><p>A ZGT SMP már nem aktív projekt, ezért a csatlakozási címe kikerült a ZGTHUB-ról.</p><div class="cardfoot"><span class="muted">Projektállapot</span><span class="cardlink">Lezárva</span></div></article>
@@ -332,7 +336,7 @@ const eventEnd=new Date('2026-11-23T23:59:59');
 const today=new Date();
 const storedTheme=localStorage.getItem('zgthub-theme');
 let ogActive=false; // CHRISTMAS TIME! overrides the previous OG-month default.
-function applyTheme(){document.body.classList.toggle('og-theme',ogActive);chooseOG.classList.toggle('active',ogActive);chooseNew.classList.toggle('active',!ogActive);if(themeNotice)themeNotice.innerHTML='🎄 <strong>CHRISTMAS TIME! PART 1</strong> Az OG stílus véget ért! Karácsonyi dizájn aktív.';}
+function applyTheme(){document.body.classList.toggle('og-unlocked',ogActive);document.body.classList.toggle('og-theme',ogActive);chooseOG.classList.toggle('active',ogActive);chooseNew.classList.toggle('active',!ogActive);if(themeNotice)themeNotice.innerHTML='🎄 <strong>CHRISTMAS TIME! PART 1</strong> Az OG stílus véget ért! Karácsonyi dizájn aktív.';}
 
 const redeemForm=document.getElementById('ogRedeemForm');
 const redeemInput=document.getElementById('ogCodeInput');
