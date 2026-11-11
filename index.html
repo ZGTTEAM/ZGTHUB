@@ -181,6 +181,12 @@ body.og-unlocked #chooseOG{display:block}
 .xmas-game button:disabled{opacity:.45;cursor:not-allowed}
 .xmas-expired{color:#ff9b9b;font-weight:800}
 
+
+.xmas-memory-buttons,.xmas-catch-area{display:flex;gap:9px;justify-content:center;align-items:center;flex-wrap:wrap}
+.xmas-memory-buttons button,.xmas-catch-area button{min-width:52px;min-height:48px;font-size:25px;border:1px solid #547b5e;border-radius:10px;background:#14271b;cursor:pointer}
+.xmas-memory-buttons button:disabled,.xmas-catch-area button:disabled{opacity:.45;cursor:not-allowed}
+.xmas-memory-sequence{font-size:24px;letter-spacing:5px;min-height:36px}
+.xmas-catch-area{min-height:105px;position:relative}
 </style>
 </head>
 <body>
@@ -268,6 +274,8 @@ body.og-unlocked #chooseOG{display:block}
  <div class="xmas-games" id="xmasGames">
   <article class="xmas-game"><h3>🎁 Gift Catcher</h3><p>Kattints az ajándékokra 15 másodperc alatt! Kerüld a szenet.</p><div class="game-score" id="giftScore">0 pont</div><div class="xmas-playfield"><button class="xmas-target" id="giftTarget" type="button" disabled>🎁</button></div><div class="game-actions"><button class="btn primary" id="giftStart" type="button">Start · 15 mp</button><span id="giftStatus">Készen állsz?</span></div></article>
   <article class="xmas-game"><h3>❄️ Snowflake Reflex</h3><p>Várd meg a hópelyhet, aztán kattints rá minél gyorsabban!</p><div class="game-score" id="snowScore">—</div><div class="xmas-playfield"><button class="xmas-target" id="snowTarget" type="button" disabled>🎄</button></div><div class="game-actions"><button class="btn primary" id="snowStart" type="button">Indítás</button><span id="snowStatus">Ne kattints túl korán!</span></div></article>
+  <article class="xmas-game"><h3>🎄 Ornament Memory</h3><p>Jegyezd meg a díszek sorrendjét, majd ismételd meg!</p><div class="game-score" id="memoryLevel">1. kör</div><div class="xmas-playfield"><div class="xmas-memory-sequence" id="memorySequence">Készen állsz?</div></div><div class="xmas-memory-buttons" id="memoryButtons"><button type="button" data-orn="0" disabled>🔴</button><button type="button" data-orn="1" disabled>🟡</button><button type="button" data-orn="2" disabled>🔵</button><button type="button" data-orn="3" disabled>🟢</button></div><div class="game-actions"><button class="btn primary" id="memoryStart" type="button">Játék indítása</button><span id="memoryStatus">Találd el a sorrendet!</span></div></article>
+  <article class="xmas-game"><h3>🍬 Candy Cane Catch</h3><p>Kattints a cukorpálcára, mielőtt eltűnik! 15 másodperced van.</p><div class="game-score" id="candyScore">0 pont</div><div class="xmas-playfield xmas-catch-area"><button class="xmas-target" id="candyTarget" type="button" disabled>🍬</button></div><div class="game-actions"><button class="btn primary" id="candyStart" type="button">Start · 15 mp</button><span id="candyStatus">Készen állsz?</span></div></article>
  </div>
 </div>
 </section>
@@ -411,6 +419,19 @@ let snowTimer=null,snowReadyAt=0,snowWaiting=false;
 const snowTarget=document.getElementById('snowTarget'),snowStart=document.getElementById('snowStart');
 snowStart.addEventListener('click',function(){if(xmasClosed)return;if(snowTimer)clearTimeout(snowTimer);snowWaiting=true;snowTarget.disabled=true;snowTarget.textContent='🎄';document.getElementById('snowScore').textContent='—';document.getElementById('snowStatus').textContent='Várj…';snowStart.disabled=true;snowTimer=setTimeout(function(){if(xmasClosed)return;snowReadyAt=Date.now();snowWaiting=false;snowTarget.textContent='❄️';snowTarget.disabled=false;document.getElementById('snowStatus').textContent='MOST! Kattints!';},1200+Math.random()*2800);});
 snowTarget.addEventListener('click',function(){if(xmasClosed||snowTarget.disabled)return;if(!snowWaiting&&snowReadyAt){document.getElementById('snowScore').textContent=(Date.now()-snowReadyAt)+' ms';document.getElementById('snowStatus').textContent='Szép reflex! Újra próbálhatod.';snowTarget.disabled=true;snowTarget.textContent='✨';snowStart.disabled=false;snowReadyAt=0;}});
+
+/* Ornament Memory */
+const memoryColors=['🔴','🟡','🔵','🟢'];let memorySequence=[],memoryIndex=0,memoryRound=1,memoryLocked=true;
+const memoryStart=document.getElementById('memoryStart'),memoryStatus=document.getElementById('memoryStatus'),memoryDisplay=document.getElementById('memorySequence'),memoryButtons=Array.from(document.querySelectorAll('#memoryButtons button'));
+function showMemorySequence(){memoryLocked=true;memoryButtons.forEach(b=>b.disabled=true);memoryDisplay.textContent='👀 Memorizáld!';let n=0;const show=setInterval(function(){if(xmasClosed){clearInterval(show);return;}memoryDisplay.textContent=memoryColors[memorySequence[n]];n++;if(n>=memorySequence.length){clearInterval(show);setTimeout(function(){if(xmasClosed)return;memoryDisplay.textContent='Te jössz!';memoryLocked=false;memoryButtons.forEach(b=>b.disabled=false);},500);}},650);}
+memoryStart.addEventListener('click',function(){if(xmasClosed)return;memoryRound=1;memorySequence=Array.from({length:3},()=>Math.floor(Math.random()*4));memoryIndex=0;document.getElementById('memoryLevel').textContent='1. kör';memoryStatus.textContent='Figyeld a sorrendet!';showMemorySequence();});
+memoryButtons.forEach(function(b){b.addEventListener('click',function(){if(xmasClosed||memoryLocked)return;const pick=Number(b.dataset.orn);if(pick!==memorySequence[memoryIndex]){memoryLocked=true;memoryButtons.forEach(x=>x.disabled=true);memoryStatus.textContent='Majdnem! Próbáld újra a játékot.';memoryDisplay.textContent='💫';return;}memoryIndex++;if(memoryIndex===memorySequence.length){memoryRound++;memorySequence.push(Math.floor(Math.random()*4));memoryIndex=0;document.getElementById('memoryLevel').textContent=memoryRound+'. kör';memoryStatus.textContent='Szuper! Jöhet a következő kör.';showMemorySequence();}});});
+/* Candy Cane Catch */
+let candyTimer=null,candyEnd=0,candyPoints=0;const candyTarget=document.getElementById('candyTarget'),candyStart=document.getElementById('candyStart'),candyArea=candyTarget.parentElement;
+function moveCandy(){candyTarget.style.transform='translate('+((Math.random()-.5)*250)+'px,'+((Math.random()-.5)*45)+'px)';}
+candyStart.addEventListener('click',function(){if(xmasClosed)return;if(candyTimer)clearInterval(candyTimer);candyPoints=0;candyEnd=Date.now()+15000;candyTarget.disabled=false;candyStart.disabled=true;document.getElementById('candyScore').textContent='0 pont';document.getElementById('candyStatus').textContent='Kapd el!';moveCandy();candyTimer=setInterval(function(){if(xmasClosed){clearInterval(candyTimer);return;}const left=Math.max(0,Math.ceil((candyEnd-Date.now())/1000));document.getElementById('candyStatus').textContent=left+' mp';if(left<=0){clearInterval(candyTimer);candyTarget.disabled=true;candyStart.disabled=false;candyTarget.style.transform='';document.getElementById('candyStatus').textContent='Vége! '+candyPoints+' pont.';}else moveCandy();},850);});
+candyTarget.addEventListener('click',function(){if(xmasClosed||candyTarget.disabled)return;candyPoints++;document.getElementById('candyScore').textContent=candyPoints+' pont';moveCandy();});
+
 updateXmasCountdown();setInterval(updateXmasCountdown,1000);
 
 // Click Rush
