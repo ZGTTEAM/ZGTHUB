@@ -254,6 +254,7 @@ body.og-unlocked #chooseOG{display:block}
 </section>\n<section class="wrap content" id="updates">
 <div class="sectionhead"><div><div class="eyebrow">ZGT UPDATE WALL</div><h2>Update Wall</h2><p>A ZGT projektjeinek frissítései egy helyen.</p></div></div>
 <div class="grid">
+<article class="card" id="newYearReleaseCard" data-search="new year szilveszter 2027" hidden><div class="cardtop"><div class="emoji">🎆</div><span class="pill ready">AUTO UPDATE</span></div><h3>ZGT NEW YEAR UPDATE</h3><p>Megérkezett a szilveszteri frissítés! Boldog új évet kíván a ZGT Team!</p><div class="cardfoot"><span class="muted">2026. 12. 31. · 23:30</span><span class="cardlink">2027 EDITION</span></div></article><div class="grid">
 <article class="card" data-search="secret reward rickroll og style titkos kód"><div class="cardtop"><div class="emoji">🔐</div><span class="pill ready">SECRET REWARD</span></div><h3>OG STYLE SECRET REWARD</h3><p>Találd meg a rejtett easter egget, oldd fel a secret kódot, és aktiváld az OG kinézetet 30 napra!</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><a class="btn primary" href="#og-reward">🎁 Kód beváltása</a></div></article><article class="card" data-search="christmas time karácsony karácsonyfa zgthub v2.01"><div class="cardtop"><div class="emoji">🎄</div><span class="pill ready">ÚJ UPDATE</span></div><h3>CHRISTMAS TIME! PART 1</h3><p>Az OG stílus véget ért! Megérkezett a karácsonyi dizájn és az új „KÉSZÍTS KARÁCSONYFÁT!” 404-es oldal.</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><span class="cardlink">Christmas Edition</span></div></article>
 <article class="card" data-search="social chat games update part 2"><div class="cardtop"><div class="emoji">🚀</div><span class="pill ready">ÚJ · PART 2</span></div><h3>Social, Chat &amp; Games — Part 2</h3><p>A ZGTHUB frissítése a közösségi hírekre, a ZGT CHAT gyors elérésére és a játékprojektek jobb felfedezésére fókuszál. A fejlesztés alatt álló játékokat külön jelöljük.</p><div class="cardfoot"><span class="muted">2026. 10. 23.</span><span class="cardlink">ZGTHUB Update</span></div></article>
 <article class="card" data-search="zgthub social frissítés weboldal"><div class="cardtop"><div class="emoji">🌐</div><span class="pill ready">Frissítés</span></div><h3>ZGTHUB Social-frissítés</h3><p>A ZGTHUB-on megjelent a Social-posztok szekció, hogy könnyebben megtaláld a ZGT projektjeinek híreit.</p><div class="cardfoot"><span class="muted">2026. 10. 22.</span><span class="cardlink">ZGTHUB</span></div></article>
@@ -389,6 +390,19 @@ document.getElementById('quickNew').addEventListener('click',function(){ogActive
 quickMenuPanel.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeQuickMenu);});
 
 document.addEventListener('click',function(event){if(!event.target.closest('.theme-picker')){themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');}});applyTheme();
+
+
+/* Scheduled New Year release marker, published by GitHub Actions. */
+(async function(){
+ const card=document.getElementById('newYearReleaseCard');
+ if(!card)return;
+ try{
+  const response=await fetch('./new-year-release.json?'+Date.now(),{cache:'no-store'});
+  if(!response.ok)return;
+  const release=await response.json();
+  if(release.released===true){card.hidden=false;}
+ }catch(error){console.warn('New Year update marker unavailable',error);}
+})();
 
 /* Limited Christmas arcade — ends 29 Dec 2026 at 19:00 Europe/Budapest (CET). */
 const xmasDeadline=new Date('2026-12-29T19:00:00+01:00');
