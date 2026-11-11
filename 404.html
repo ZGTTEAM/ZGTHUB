@@ -55,5 +55,14 @@ small{display:block;color:#88a991;margin-top:28px;letter-spacing:.12em}
  });
 })();
 </script>
+<script>
+(function(){
+ const path=location.pathname.replace(/\/$/,'');
+ const base=path.slice(0,path.lastIndexOf('/')+1);
+ if(path.endsWith('/rickroll')){location.replace(base+'secret.html');return;}
+ let typed='';
+ document.addEventListener('keydown',function(e){if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1)return;typed=(typed+e.key.toLowerCase()).slice(-8);if(typed==='rickroll')location.href=base+'secret.html';});
+})();
+</script>
 </body>
 </html>
