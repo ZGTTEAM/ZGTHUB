@@ -4,7 +4,6 @@ on:
   schedule:
     # 2026-12-31 23:30 in Hungary (CET, UTC+1) = 22:30 UTC
     - cron: "30 22 31 12 *"
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -24,6 +23,10 @@ jobs:
           const fs = require('fs');
           const path = 'new-year-release.json';
           const now = new Date();
+          if (now.getUTCFullYear() !== 2026 || now.getUTCMonth() !== 11 || now.getUTCDate() !== 31) {
+            console.log('This workflow is reserved for the 2026 New Year release.');
+            process.exit(0);
+          }
           const release = {
             released: true,
             release_at: '2026-12-31T23:30:00+01:00',
