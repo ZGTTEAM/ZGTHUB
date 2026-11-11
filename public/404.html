@@ -32,7 +32,7 @@ small{display:block;color:#88a991;margin-top:28px;letter-spacing:.12em}
 <p id="status">Nyomd meg a gombot, és díszítsd fel a fát!</p>
 <div class="actions">
 <button id="decorate" type="button">✨ Díszítés hozzáadása</button>
-<a href="/">← Vissza a ZGTHUB-ra</a>
+<a href="./">← Vissza a ZGTHUB-ra</a>
 </div>
 <small>ZGT NEVER DIES · ZND</small>
 </main>
@@ -52,6 +52,20 @@ small{display:block;color:#88a991;margin-top:28px;letter-spacing:.12em}
   document.getElementById("tree").style.transform="rotate("+((count%2?2:-2))+"deg) scale(1.02)";
   status.textContent="Díszek: "+count+" / 21 — még szebb lesz!";
   if(count===21)status.textContent="KÉSZ! A ZGTHUB karácsonyfája elkészült! 🎄";
+ });
+})();
+
+(function(){
+ const path=location.pathname.replace(/\\/$/,"");
+ if(path.endsWith("/rickroll")){location.replace(path.slice(0,-8)+"/secret.html");return;}
+ let typed="";
+ document.addEventListener("keydown",function(e){
+  if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1)return;
+  typed=(typed+e.key.toLowerCase()).slice(-8);
+  if(typed==="rickroll"){
+   const base=location.pathname.slice(0,location.pathname.lastIndexOf("/")+1);
+   location.href=base+"secret.html";
+  }
  });
 })();
 </script>
