@@ -168,6 +168,19 @@ body.og-theme .topbar{background:#07150fee;border-bottom:2px solid #b92d3c}body.
 /* OG theme selector is locked until the secret reward is redeemed */
 #chooseOG{display:none}
 body.og-unlocked #chooseOG{display:block}
+
+.christmas-arcade{margin-top:26px;padding:22px;border:1px solid #b92d3c;border-radius:18px;background:linear-gradient(145deg,#10251a,#17151b)}
+.christmas-arcade .sectionhead{margin-bottom:14px}
+.xmas-countdown{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 18px;padding:10px 14px;border:1px solid #d4b45c;border-radius:12px;color:#ffe08a;font-weight:800;background:#251d12}
+.xmas-games{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.xmas-game{padding:17px;border:1px solid #355c43;border-radius:14px;background:#0d1c14}
+.xmas-game h3{margin:0 0 6px}
+.xmas-game p{color:var(--muted)}
+.xmas-playfield{min-height:105px;display:grid;place-items:center;border:1px dashed #547b5e;border-radius:12px;margin:12px 0;padding:12px;text-align:center}
+.xmas-target{font-size:42px;line-height:1.3;cursor:pointer;border:0;background:transparent}
+.xmas-game button:disabled{opacity:.45;cursor:not-allowed}
+.xmas-expired{color:#ff9b9b;font-weight:800}
+
 </style>
 </head>
 <body>
@@ -248,6 +261,14 @@ body.og-unlocked #chooseOG{display:block}
 <article class="card"><div class="cardtop"><div class="emoji">🖱️</div><span class="pill ready">Játszható</span></div><h3>Click Rush</h3><p>Kattints minél többször 10 másodperc alatt!</p><div class="gamebox"><div class="game-score" id="clickScore">0 kattintás</div><p id="clickStatus">Nyomd meg a Startot!</p><div class="game-actions"><button class="btn primary" id="clickStart" type="button">Start · 10 mp</button><button class="btn" id="clickHit" type="button" disabled>KATT!</button></div></div></article>
 <article class="card"><div class="cardtop"><div class="emoji">⭕</div><span class="pill ready">Játszható</span></div><h3>Tic-Tac-Toe</h3><p>Klasszikus amőba, két játékosnak ugyanazon a gépen.</p><div class="gamebox"><p id="tttStatus">X következik.</p><div class="ttt" id="tttBoard" aria-label="Amőba játéktábla"></div><div class="game-actions"><button class="btn" id="tttReset" type="button">Új játék</button></div></div></article>
 <article class="card"><div class="cardtop"><div class="emoji">🎲</div><span class="pill ready">Játszható</span></div><h3>Lucky Number</h3><p>Találd ki a titkos számot 1 és 20 között.</p><div class="gamebox"><p id="luckyStatus">Gondoltam egy számra. Találd ki!</p><div class="game-actions"><input class="search" id="luckyInput" type="number" min="1" max="20" placeholder="1–20" aria-label="Tippeld meg a számot"><button class="btn primary" id="luckyGuess" type="button">Tipp</button><button class="btn" id="luckyReset" type="button">Új szám</button></div></div></article>
+</div>
+<div class="christmas-arcade">
+ <div class="sectionhead"><div><div class="eyebrow">LIMITED EVENT · CHRISTMAS 2026</div><h2>🎄 Limitált karácsonyi játékok</h2><p>Csak az ünnepi esemény ideje alatt játszhatók!</p></div></div>
+ <div class="xmas-countdown" id="xmasCountdown" role="timer" aria-live="polite">⏳ Betöltés…</div>
+ <div class="xmas-games" id="xmasGames">
+  <article class="xmas-game"><h3>🎁 Gift Catcher</h3><p>Kattints az ajándékokra 15 másodperc alatt! Kerüld a szenet.</p><div class="game-score" id="giftScore">0 pont</div><div class="xmas-playfield"><button class="xmas-target" id="giftTarget" type="button" disabled>🎁</button></div><div class="game-actions"><button class="btn primary" id="giftStart" type="button">Start · 15 mp</button><span id="giftStatus">Készen állsz?</span></div></article>
+  <article class="xmas-game"><h3>❄️ Snowflake Reflex</h3><p>Várd meg a hópelyhet, aztán kattints rá minél gyorsabban!</p><div class="game-score" id="snowScore">—</div><div class="xmas-playfield"><button class="xmas-target" id="snowTarget" type="button" disabled>🎄</button></div><div class="game-actions"><button class="btn primary" id="snowStart" type="button">Indítás</button><span id="snowStatus">Ne kattints túl korán!</span></div></article>
+ </div>
 </div>
 </section>
 <section class="wrap content" id="og-reward">
@@ -360,6 +381,38 @@ document.getElementById('quickNew').addEventListener('click',function(){ogActive
 quickMenuPanel.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeQuickMenu);});
 
 document.addEventListener('click',function(event){if(!event.target.closest('.theme-picker')){themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');}});applyTheme();
+
+/* Limited Christmas arcade — ends 29 Dec 2026 at 19:00 Europe/Budapest (CET). */
+const xmasDeadline=new Date('2026-12-29T19:00:00+01:00');
+const xmasCountdown=document.getElementById('xmasCountdown');
+const xmasGames=document.getElementById('xmasGames');
+let xmasClosed=false;
+function updateXmasCountdown(){
+ const ms=xmasDeadline.getTime()-Date.now();
+ if(ms<=0){
+  xmasClosed=true;xmasCountdown.innerHTML='<span class="xmas-expired">🔒 A karácsonyi játékesemény véget ért.</span>';
+  xmasGames.querySelectorAll('button').forEach(function(b){b.disabled=true;});
+  if(giftTimer)clearInterval(giftTimer);if(snowTimer)clearTimeout(snowTimer);
+  return;
+ }
+ const d=Math.floor(ms/86400000),h=Math.floor(ms%86400000/3600000),m=Math.floor(ms%3600000/60000),s=Math.floor(ms%60000/1000);
+ xmasCountdown.textContent='⏳ Még játszható: '+d+' nap '+h+' óra '+m+' perc '+s+' mp · Lejár: dec. 29. 19:00';
+}
+let giftTimer=null,giftPoints=0,giftEnd=0;
+const giftTarget=document.getElementById('giftTarget'),giftStart=document.getElementById('giftStart');
+giftStart.addEventListener('click',function(){
+ if(xmasClosed)return;if(giftTimer)clearInterval(giftTimer);
+ giftPoints=0;giftEnd=Date.now()+15000;giftTarget.disabled=false;giftStart.disabled=true;
+ document.getElementById('giftScore').textContent='0 pont';document.getElementById('giftStatus').textContent='Kapd el az ajándékokat!';
+ giftTimer=setInterval(function(){if(xmasClosed){clearInterval(giftTimer);return;}const left=Math.max(0,Math.ceil((giftEnd-Date.now())/1000));if(left<=0){clearInterval(giftTimer);giftTarget.disabled=true;giftStart.disabled=false;document.getElementById('giftStatus').textContent='Vége! Pontszám: '+giftPoints;}else{giftTarget.textContent=Math.random()<.18?'🪨':'🎁';document.getElementById('giftStatus').textContent=left+' mp';}},650);
+});
+giftTarget.addEventListener('click',function(){if(xmasClosed||giftTarget.disabled)return;if(giftTarget.textContent==='🪨')giftPoints=Math.max(0,giftPoints-2);else giftPoints+=1;document.getElementById('giftScore').textContent=giftPoints+' pont';giftTarget.textContent='✨';});
+let snowTimer=null,snowReadyAt=0,snowWaiting=false;
+const snowTarget=document.getElementById('snowTarget'),snowStart=document.getElementById('snowStart');
+snowStart.addEventListener('click',function(){if(xmasClosed)return;if(snowTimer)clearTimeout(snowTimer);snowWaiting=true;snowTarget.disabled=true;snowTarget.textContent='🎄';document.getElementById('snowScore').textContent='—';document.getElementById('snowStatus').textContent='Várj…';snowStart.disabled=true;snowTimer=setTimeout(function(){if(xmasClosed)return;snowReadyAt=Date.now();snowWaiting=false;snowTarget.textContent='❄️';snowTarget.disabled=false;document.getElementById('snowStatus').textContent='MOST! Kattints!';},1200+Math.random()*2800);});
+snowTarget.addEventListener('click',function(){if(xmasClosed||snowTarget.disabled)return;if(!snowWaiting&&snowReadyAt){document.getElementById('snowScore').textContent=(Date.now()-snowReadyAt)+' ms';document.getElementById('snowStatus').textContent='Szép reflex! Újra próbálhatod.';snowTarget.disabled=true;snowTarget.textContent='✨';snowStart.disabled=false;snowReadyAt=0;}});
+updateXmasCountdown();setInterval(updateXmasCountdown,1000);
+
 // Click Rush
 let clicks=0,clickRunning=false,clickEnd=0,clickTimer=null;
 const clickScore=document.getElementById('clickScore'),clickStatus=document.getElementById('clickStatus'),clickHit=document.getElementById('clickHit'),clickStart=document.getElementById('clickStart');
