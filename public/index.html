@@ -161,7 +161,7 @@ const copyButton2=document.getElementById('copyServer2'); if(copyButton2)copyBut
  const expiry=Number(get(UNTIL));
  if(expiry>Date.now()){document.body.classList.add("og-theme");if(status)status.textContent="OG kinézet aktív még "+Math.ceil((expiry-Date.now())/86400000)+" napig. 💜";}
  if(form)form.addEventListener("submit",function(e){e.preventDefault();if(get(USED)){status.textContent="Ezt a kódot ezen a böngészőn már beváltottad. 🔒";return;}if((input.value||"").trim().toLowerCase()!==CODE){status.textContent="Hibás kód. Próbáld újra!";return;}const end=Date.now()+30*86400000;set(USED,"1",365);set(UNTIL,String(end),31);document.body.classList.add("og-theme");status.textContent="SIKER! Az OG kinézet 30 napra aktiválva! 💜";input.value="";});
- let typed="";document.addEventListener("keydown",function(e){if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1)return;typed=(typed+e.key.toLowerCase()).slice(-8);if(typed==="rickroll")location.href="/secret.html";});
+ let typed="";document.addEventListener("keydown",function(e){if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1)return;typed=(typed+e.key.toLowerCase()).slice(-8);if(typed==="rickroll")location.href="./secret.html";});
 })();
 </script>
 </body>
