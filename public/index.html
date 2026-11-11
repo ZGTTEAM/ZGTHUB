@@ -42,6 +42,21 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:8;opac
 @keyframes christmasSnow{from{background-position:0 -160px}to{background-position:0 160px}}
 @media(prefers-reduced-motion:reduce){body:before{animation:none}}
 
+/* OG reward theme */
+body.og-theme{--bg:#08070b;--panel:#111014;--panel2:#17151b;--line:#39313f;--purple:#9b5de5;--violet:#6f35b5;--cyan:#b6a0d8;--radius:7px;background:#08070b}
+body.og-theme .topbar{backdrop-filter:none;background:#08070b;border-bottom:2px solid #6f35b5}
+body.og-theme .logo{border-radius:5px;background:#6f35b5;box-shadow:none}
+body.og-theme .brand small{border-radius:4px}
+body.og-theme .btn,body.og-theme .filter{border-radius:5px;box-shadow:none}
+body.og-theme .btn.primary{background:#6f35b5}
+body.og-theme .art,body.og-theme .stat,body.og-theme .card,body.og-theme .panel{border-radius:7px;box-shadow:none;background:#111014;border-color:#39313f}
+body.og-theme .card:hover{transform:none;box-shadow:none;border-color:#9b5de5}
+body.og-theme .emoji{border-radius:6px;background:#21172b}
+body.og-theme .search,body.og-theme .linkrow{border-radius:5px}
+body.og-theme:before{display:none}
+.theme-redeem{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.theme-redeem input{flex:1;min-width:180px;background:#100c18;border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:white}
+.theme-status{font-size:13px;color:var(--muted);margin-top:10px;min-height:22px}
 </style>
 </head>
 <body>
@@ -88,6 +103,12 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:8;opac
 <article class="card" data-search="neon rush zgt apps játék fejlesztés"><div class="cardtop"><div class="emoji">⚡</div><span class="pill dev">Fejlesztés alatt</span></div><h3>NEON RUSH</h3><p>A ZGT Apps játékprojektje továbbra is fejlesztés alatt áll; új hírek itt jelenhetnek meg.</p><div class="cardfoot"><span class="muted">ZGT Apps</span><span class="cardlink">Folyamatban</span></div></article>
 </div>
 </section>
+<section class="wrap content" id="og-reward">
+<div class="sectionhead"><div><div class="eyebrow">ZGT SECRET REWARD</div><h2>OG Style Code</h2><p>Írd be a secret kódot, és aktiváld az OG kinézetet 30 napra.</p></div></div>
+<div class="panel"><h3>🔐 Kód beváltása</h3>
+<form class="theme-redeem" id="ogRedeemForm"><input id="ogCodeInput" type="text" autocomplete="off" placeholder="Írd be a secret kódot…" aria-label="Secret kód"><button class="btn primary" type="submit">Kód beváltása</button></form>
+<div class="theme-status" id="ogCodeStatus" role="status" aria-live="polite">A kód böngészőnként egyszer használható fel.</div></div>
+</section>
 <section class="wrap content" id="about"><div class="sectionhead"><div><div class="eyebrow">AZ IDENTITÁS</div><h2>ZGT Never Dies.</h2><p>ZND — a ZGT jelmondata.</p></div></div>
 <div class="twocol"><article class="panel"><h3>🟣 Mi a ZGT?</h3><p>A ZGT egy kreatív univerzum játékokkal, webes projektekkel, tartalommal és saját ötletekkel. A ZGTHUB ezek központi kiindulópontja.</p></article><article class="panel"><h3>🛠️ Átlátható fejlesztés</h3><p>Csak olyan funkciót jelölünk működőként, amelyhez ténylegesen elérhető szolgáltatás tartozik. Ahol még nincs nyilvános link vagy háttérrendszer, azt külön jelezzük.</p></article></div>
 </section>
@@ -129,6 +150,17 @@ async function copyServer(){
 }
 const copyButton=document.getElementById('copyServer'); if(copyButton)copyButton.addEventListener('click',copyServer);
 const copyButton2=document.getElementById('copyServer2'); if(copyButton2)copyButton2.addEventListener('click',copyServer);
+})();
+ 
+(function(){
+ const CODE="oggetrickrolled", USED="zgthub_og_redeemed", UNTIL="zgthub_og_until";
+ function get(name){const row=document.cookie.split("; ").find(x=>x.indexOf(name+"=")===0);return row?decodeURIComponent(row.slice(name.length+1)):"";}
+ function set(name,value,days){document.cookie=name+"="+encodeURIComponent(value)+"; Max-Age="+days*86400+"; Path=/; SameSite=Lax"+(location.protocol==="https:"?"; Secure":"");}
+ const form=document.getElementById("ogRedeemForm"),input=document.getElementById("ogCodeInput"),status=document.getElementById("ogCodeStatus");
+ const expiry=Number(get(UNTIL));
+ if(expiry>Date.now()){document.body.classList.add("og-theme");if(status)status.textContent="OG kinézet aktív még "+Math.ceil((expiry-Date.now())/86400000)+" napig. 💜";}
+ if(form)form.addEventListener("submit",function(e){e.preventDefault();if(get(USED)){status.textContent="Ezt a kódot ezen a böngészőn már beváltottad. 🔒";return;}if((input.value||"").trim().toLowerCase()!==CODE){status.textContent="Hibás kód. Próbáld újra!";return;}const end=Date.now()+30*86400000;set(USED,"1",365);set(UNTIL,String(end),31);document.body.classList.add("og-theme");status.textContent="SIKER! Az OG kinézet 30 napra aktiválva! 💜";input.value="";});
+ let typed="";document.addEventListener("keydown",function(e){if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1)return;typed=(typed+e.key.toLowerCase()).slice(-8);if(typed==="rickroll")location.href="/secret.html";});
 })();
 </script>
 </body>
