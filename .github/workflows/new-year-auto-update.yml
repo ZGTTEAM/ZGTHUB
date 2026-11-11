@@ -1,0 +1,43 @@
+name: ZGT New Year Auto Update
+
+on:
+  schedule:
+    # 2026-12-31 23:30 in Hungary (CET, UTC+1) = 22:30 UTC
+    - cron: "30 22 31 12 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-new-year-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Publish the New Year update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'new-year-release.json';
+          const now = new Date();
+          const release = {
+            released: true,
+            release_at: '2026-12-31T23:30:00+01:00',
+            published_at: now.toISOString(),
+            edition: '2027',
+            title: 'ZGT NEW YEAR UPDATE'
+          };
+          fs.writeFileSync(path, JSON.stringify(release, null, 2) + '\n');
+          NODE
+
+      - name: Commit and push release marker
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add new-year-release.json
+          git commit -m "Publish ZGT New Year update"
+          git push
