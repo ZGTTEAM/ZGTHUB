@@ -197,7 +197,7 @@ body.og-unlocked #chooseOG{display:block}
   <h1 id="notFoundTitle">Az oldal nem található</h1>
   <p>Úgy tűnik, ez a link nem vezet sehova. Lehet, hogy rossz címet írtál be, vagy ez az oldal már nem létezik.</p>
   <div class="notfound-actions">
-   <a class="notfound-home" href="#home">← Vissza a főoldalra</a>
+   <a class="notfound-home" href="https://zgtteam.github.io/ZGTHUB/#home">← Vissza a főoldalra</a>
    <button class="notfound-back" id="notFoundBack" type="button">Vissza az előző oldalra</button>
   </div>
   <button class="notfound-planet-button" id="openPlanetArcade" type="button" aria-label="ZGT bolygó lövőjáték megnyitása">
@@ -325,7 +325,7 @@ body.og-unlocked #chooseOG{display:block}
  }
  validateHash();
  window.addEventListener('hashchange',validateHash);
- document.getElementById('notFoundBack').addEventListener('click',function(){window.location.replace(window.location.pathname+window.location.search+'#home');});
+ document.getElementById('notFoundBack').addEventListener('click',function(){window.location.href='https://zgtteam.github.io/ZGTHUB/#home';});
 
 const search=document.getElementById('projectSearch');
 const cards=Array.from(document.querySelectorAll('#projectGrid .card'));
