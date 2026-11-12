@@ -25,7 +25,7 @@
   async function api(path, body) {
     const response = await fetch("/api/" + path, {method:body ? "POST" : "GET",credentials:"same-origin",headers:body ? {"Content-Type":"application/json"} : {},body:body ? JSON.stringify(body) : undefined});
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "Something went wrong.");
+    if (!response.ok) { const error = new Error(data.error || "Something went wrong."); error.status = response.status; throw error; }
     return data;
   }
   function showSite(username) {
@@ -41,5 +41,5 @@
     catch (error) { message.textContent = error.message; }
     finally { submit.disabled = false; submit.textContent = mode === "login" ? "Sign in" : "Create account"; }
   });
-  api("me").then(data => showSite(data.username)).catch(() => {});
+  api("me").then(data => showSite(data.username)).catch(error => { if (error.status !== 401) gate.remove(); });
 })();
