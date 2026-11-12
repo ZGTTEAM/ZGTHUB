@@ -374,18 +374,19 @@ const redeemStatus=document.getElementById('ogCodeStatus');
 function readRewardCookie(name){const item=document.cookie.split('; ').find(function(x){return x.indexOf(name+'=')===0;});return item?decodeURIComponent(item.slice(name.length+1)):'';}
 function writeRewardCookie(name,value,days){document.cookie=name+'='+encodeURIComponent(value)+'; Max-Age='+(days*86400)+'; Path=/; SameSite=Lax'+(location.protocol==='https:'?'; Secure':'');}
 const rewardExpiry=Number(readRewardCookie('zgthub_og_until'));
+function requestOGTheme(){const expiry=Number(readRewardCookie('zgthub_og_until'));if(expiry>Date.now()){ogActive=true;localStorage.setItem('zgthub-theme','og');applyTheme();return;}if(redeemStatus)redeemStatus.textContent='🔒 Az OG kinézet titkos kódhoz kötött. Váltsd be a kódot a feloldáshoz!';document.getElementById('og-reward').scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){if(redeemInput)redeemInput.focus();},350);}
 if(rewardExpiry>Date.now()){ogActive=true;applyTheme();if(redeemStatus)redeemStatus.textContent='OG kinézet aktív még '+Math.ceil((rewardExpiry-Date.now())/86400000)+' napig. 💜';}
 if(redeemForm)redeemForm.addEventListener('submit',function(e){e.preventDefault();if(readRewardCookie('zgthub_og_redeemed')){redeemStatus.textContent='Ezt a kódot ezen a böngészőn már beváltottad. 🔒';return;}if((redeemInput.value||'').trim().toLowerCase()!=='oggetrickrolled'){redeemStatus.textContent='Hibás kód. Próbáld újra!';return;}const end=Date.now()+30*86400000;writeRewardCookie('zgthub_og_redeemed','1',365);writeRewardCookie('zgthub_og_until',String(end),31);ogActive=true;localStorage.setItem('zgthub-theme','og');applyTheme();redeemInput.value='';redeemStatus.textContent='SIKER! Az OG kinézet 30 napra aktiválva! 💜';});
 let secretTyped='';document.addEventListener('keydown',function(e){if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1)return;secretTyped=(secretTyped+e.key.toLowerCase()).slice(-8);if(secretTyped==='rickroll')location.href='./secret.html';});
 themeToggle.addEventListener('click',function(){const open=themeMenu.classList.contains('hidden');themeMenu.classList.toggle('hidden',!open);themeToggle.setAttribute('aria-expanded',String(open));});
-chooseOG.addEventListener('click',function(){ogActive=true;localStorage.setItem('zgthub-theme','og');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
+chooseOG.addEventListener('click',function(){requestOGTheme();themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');});
 chooseNew.addEventListener('click',function(){ogActive=false;localStorage.setItem('zgthub-theme','new');themeMenu.classList.add('hidden');themeToggle.setAttribute('aria-expanded','false');applyTheme();});
 const quickMenuLaunch=document.getElementById('quickMenuLaunch');
 const quickMenuPanel=document.getElementById('quickMenuPanel');
 function closeQuickMenu(){quickMenuPanel.classList.add('hidden');quickMenuLaunch.setAttribute('aria-expanded','false');}
 quickMenuLaunch.addEventListener('click',function(){const open=quickMenuPanel.classList.contains('hidden');quickMenuPanel.classList.toggle('hidden',!open);quickMenuLaunch.setAttribute('aria-expanded',String(open));});
 document.getElementById('quickMenuClose').addEventListener('click',closeQuickMenu);
-document.getElementById('quickOG').addEventListener('click',function(){ogActive=true;localStorage.setItem('zgthub-theme','og');applyTheme();closeQuickMenu();});
+document.getElementById('quickOG').addEventListener('click',function(){requestOGTheme();closeQuickMenu();});
 document.getElementById('quickNew').addEventListener('click',function(){ogActive=false;localStorage.setItem('zgthub-theme','new');applyTheme();closeQuickMenu();});
 quickMenuPanel.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeQuickMenu);});
 
