@@ -57,6 +57,14 @@ body.og-theme:before{display:none}
 .theme-redeem{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .theme-redeem input{flex:1;min-width:180px;background:#100c18;border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:white}
 .theme-status{font-size:13px;color:var(--muted);margin-top:10px;min-height:22px}
+
+/* UPDATE WALL LAYOUT FIX — keep cards readable at every screen width */
+#updates .update-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+#updates .update-grid>.card{min-width:0;width:100%;overflow-wrap:anywhere}
+#updates .update-grid .cardtop{flex-wrap:wrap;align-items:flex-start}
+#updates .update-grid .card h3{overflow-wrap:anywhere}
+@media(max-width:850px){#updates .update-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){#updates .update-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -96,7 +104,7 @@ body.og-theme:before{display:none}
 </div>
 </section>\n<section class="wrap content" id="updates">
 <div class="sectionhead"><div><div class="eyebrow">ZGT UPDATE WALL</div><h2>Update Wall</h2><p>A ZGT projektjeinek frissítései egy helyen.</p></div></div>
-<div class="grid">
+<div class="grid update-grid">
 <article class="card" data-search="secret code rickroll og style jutalom 30 nap"><div class="cardtop"><div class="emoji">🔐</div><span class="pill ready">ÚJ FUNKCIÓ</span></div><h3>OG STYLE SECRET REWARD</h3><p>Írd be, hogy „rickroll”, oldd fel a titkos kódot, és váltsd be az OG kinézetet 30 napra!</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><a class="cardlink" href="#og-reward">Kód beváltása ↓</a></div></article>
 <article class="card" data-search="christmas time karácsony karácsonyfa zgthub v2.01"><div class="cardtop"><div class="emoji">🎄</div><span class="pill ready">ÚJ UPDATE</span></div><h3>CHRISTMAS TIME! PART 1</h3><p>Az OG stílus véget ért! Megérkezett a karácsonyi dizájn és az új „KÉSZÍTS KARÁCSONYFÁT!” 404-es oldal.</p><div class="cardfoot"><span class="muted">ZGTHUB V2.01</span><span class="cardlink">Christmas Edition</span></div></article>
 <article class="card" data-search="zgthub social frissítés weboldal"><div class="cardtop"><div class="emoji">🌐</div><span class="pill ready">Frissítés</span></div><h3>ZGTHUB Social-frissítés</h3><p>A ZGTHUB-on megjelent a Social-posztok szekció, hogy könnyebben megtaláld a ZGT projektjeinek híreit.</p><div class="cardfoot"><span class="muted">2026. 10. 22.</span><span class="cardlink">ZGTHUB</span></div></article>
