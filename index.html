@@ -325,7 +325,7 @@ body.og-unlocked #chooseOG{display:block}
  }
  validateHash();
  window.addEventListener('hashchange',validateHash);
- document.getElementById('notFoundBack').addEventListener('click',function(){if(window.history.length>1)window.history.back();else window.location.hash='#home';});
+ document.getElementById('notFoundBack').addEventListener('click',function(){window.location.replace(window.location.pathname+window.location.search+'#home');});
 
 const search=document.getElementById('projectSearch');
 const cards=Array.from(document.querySelectorAll('#projectGrid .card'));
