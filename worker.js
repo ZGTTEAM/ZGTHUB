@@ -38,4 +38,4 @@ async function handleApi(request,env){
  }
  return json({error:"Not found."},404);
 }
-export default {async fetch(request,env){const url=new URL(request.url);if(url.pathname.startsWith("/api/")){try{return await handleApi(request,env)}catch(error){return json({error:"Server error. Please try again."},500)}}return env.ASSETS.fetch(request)}};
+export default {async fetch(request,env){const url=new URL(request.url);if(request.method==="GET"&&(url.pathname==="/maintenance"||url.pathname==="/maintenance/")){return env.ASSETS.fetch(new Request(new URL("/maintenance.html",request.url),request))}if(url.pathname.startsWith("/api/")){try{return await handleApi(request,env)}catch(error){return json({error:"Server error. Please try again."},500)}}return env.ASSETS.fetch(request)}};
