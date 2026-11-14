@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090711">
+<meta name="robots" content="noindex,nofollow">
+<title>AdminVerify — ZGTHUB</title>
+<style>
+:root{color-scheme:dark;--bg:#090711;--panel:#13101d;--line:#30233f;--purple:#a855f7;--text:#f8f5ff;--muted:#b7abc9}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at 70% 0%,#4c1d9560,transparent 45%),radial-gradient(ellipse at 0% 100%,#17255455,transparent 40%),var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif}
+.card{width:min(460px,100%);padding:28px;border:1px solid #a855f755;border-radius:22px;background:linear-gradient(145deg,#191326,#100d17);box-shadow:0 24px 80px #0008}
+.brand{font-size:12px;letter-spacing:.2em;color:#d8b4fe;font-weight:900}.icon{width:54px;height:54px;display:grid;place-items:center;margin:22px 0 12px;border-radius:16px;background:#a855f722;border:1px solid #a855f766;font-size:26px}
+h1{margin:0;font-size:32px;letter-spacing:-.04em}p{color:var(--muted);margin:8px 0 22px}
+label{display:block;margin-bottom:7px;font-size:13px;font-weight:750}
+input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:11px;background:#0b0810;color:white;font:inherit;outline:none}
+input:focus{border-color:var(--purple);box-shadow:0 0 0 3px #a855f722}
+button,.back{display:inline-flex;justify-content:center;align-items:center;width:100%;margin-top:12px;padding:12px 15px;border:1px solid #a855f755;border-radius:11px;background:linear-gradient(135deg,#a855f7,#6d28d9);color:white;font:inherit;font-weight:850;cursor:pointer;text-decoration:none}
+button:disabled{opacity:.6;cursor:wait}.back{background:transparent;border-color:#ffffff22}
+.status{min-height:44px;margin-top:14px;padding:10px 12px;border:1px solid #ffffff16;border-radius:10px;color:#c4b5fd;font-size:13px}
+.note{margin-top:16px;font-size:11px;color:#8f849f}.success{color:#86efac}.error{color:#fca5a5}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="brand">ZGT · ZGTHUB</div>
+  <div class="icon" aria-hidden="true">🛡️</div>
+  <h1>AdminVerify</h1>
+  <p>Adminisztrátori hozzáférés ellenőrzése.</p>
+  <form id="verifyForm">
+    <label for="password">Admin password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256" placeholder="Írd be az admin jelszót">
+    <button id="submit" type="submit">Verify access</button>
+  </form>
+  <div id="status" class="status" role="status" aria-live="polite">A biztonságos ellenőrző szolgáltatás állapotának vizsgálata…</div>
+  <a class="back" href="../">← Vissza a ZGTHUB-ra</a>
+  <div class="note">A belépési adatokat a böngésző nem tárolja. Az admin munkamenetet csak a szerver állíthatja be biztonságos, HttpOnly cookie-val.</div>
+</main>
+<script>
+(function(){
+ const form=document.getElementById('verifyForm');
+ const input=document.getElementById('password');
+ const button=document.getElementById('submit');
+ const status=document.getElementById('status');
+ function show(message,type){status.textContent=message;status.className='status '+(type||'');}
+ async function checkSession(){
+  try{
+   const response=await fetch('../api/adminsession',{method:'GET',credentials:'same-origin',cache:'no-store'});
+   if(!response.ok)throw new Error('not-ready');
+   const data=await response.json();
+   if(data.authenticated===true)show('Admin session aktív. A szerver hitelesítette a hozzáférést.','success');
+   else show('Az admin ellenőrző szolgáltatás elérhető. Jelentkezz be a jelszóval.');
+  }catch(error){
+   show('A felület elkészült, de a szerveroldali AdminVerify API még nincs telepítve. Jelszót ne írj be, amíg ez nincs beállítva.','error');
+  }
+ }
+ form.addEventListener('submit',async function(event){
+  event.preventDefault();
+  if(!input.value)return;
+  button.disabled=true;
+  show('Ellenőrzés…');
+  try{
+   const response=await fetch('../api/adminverify',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:input.value})});
+   const data=await response.json().catch(()=>({}));
+   if(!response.ok||data.authenticated!==true)throw new Error(data.message||'A hitelesítés nem sikerült.');
+   input.value='';
+   show('Sikeres ellenőrzés! Az admin munkamenetet a szerver aktiválta.','success');
+  }catch(error){
+   show(error.message==='Failed to fetch'?'Az AdminVerify szerver még nincs telepítve.':error.message,'error');
+  }finally{button.disabled=false;}
+ });
+ checkSession();
+})();
+</script>
+</body>
+</html>
