@@ -11,7 +11,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "zgthub-accounts",
+      "database_name": "zgthub-account",
       "database_id": "48f39ece-827c-4945-be6e-7bb4a6dcf468"
     }
   ]
